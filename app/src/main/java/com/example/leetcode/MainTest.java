@@ -1,10 +1,13 @@
 package com.example.leetcode;
 
+import com.example.leetcode.middle.LengthOfLongestSubstring;
+import com.example.leetcode.simple.CountAndSay;
+
 /**
  * 测试用
  */
 public class MainTest {
     public static void main(String[] args) {
-
+        System.out.println(new CountAndSay().countAndSay2(6));
     }
 }
