@@ -1,4 +1,4 @@
-package com.example.leetcode.simple;
+package com.example.leetcode.string;
 
 /**
  * 实现 strStr()

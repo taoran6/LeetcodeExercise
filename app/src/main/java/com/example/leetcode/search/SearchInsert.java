@@ -1,4 +1,4 @@
-package com.example.leetcode.simple;
+package com.example.leetcode.search;
 
 /**
  *  搜索插入位置

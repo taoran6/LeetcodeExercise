@@ -1,4 +1,4 @@
-package com.example.leetcode.simple;
+package com.example.leetcode.string;
 
 /**
  * 最长公共前缀

@@ -1,4 +1,4 @@
-package com.example.leetcode.simple;
+package com.example.leetcode.string;
 
 /**
  * 报数
@@ -58,7 +58,9 @@ public class CountAndSay {
     }
 
     /**
-     * 改进：1.只遍历n遍 2.使用StringBuilder会快一个数量级 3.使用两个临时变量，不需要数组
+     * 改进：1.只遍历n遍
+     *      2.使用StringBuilder会快一个数量级
+     *      3.使用两个临时变量，不需要数组
      * @param n
      * @return
      */

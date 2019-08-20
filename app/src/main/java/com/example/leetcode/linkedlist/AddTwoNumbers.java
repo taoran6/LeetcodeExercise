@@ -1,4 +1,4 @@
-package com.example.leetcode.middle;
+package com.example.leetcode.linkedlist;
 
 /**
  * 两数相加

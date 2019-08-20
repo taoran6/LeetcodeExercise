@@ -1,7 +1,6 @@
 package com.example.leetcode;
 
-import com.example.leetcode.middle.LengthOfLongestSubstring;
-import com.example.leetcode.simple.CountAndSay;
+import com.example.leetcode.string.CountAndSay;
 
 /**
  * 测试用
