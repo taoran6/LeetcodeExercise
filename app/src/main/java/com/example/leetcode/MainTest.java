@@ -1,14 +1,15 @@
 package com.example.leetcode;
 
+import com.example.leetcode.compute.HammingDistance;
+import com.example.leetcode.stack.MinStack;
 import com.example.leetcode.stack.RemoveOuterParentheses;
-import com.example.leetcode.string.CountAndSay;
-import com.example.leetcode.string.Palindrome;
 
 /**
  * 测试用
  */
 public class MainTest {
     public static void main(String[] args) {
-        System.out.println(new RemoveOuterParentheses().removeOuterParentheses("(()())(())"));
+        System.out.println(new HammingDistance().hammingDistance(2,4));
+
     }
 }
