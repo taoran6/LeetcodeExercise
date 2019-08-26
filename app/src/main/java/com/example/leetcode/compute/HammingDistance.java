@@ -31,13 +31,14 @@ public class HammingDistance {
      * @param x
      * @param y
      * @return
+     *
+     * 核心：位运算
      */
     public int hammingDistance(int x, int y) {
         int ans = 0;
         int z = x ^ y;
-        int l = 0x01;
         while (z != 0) {
-            ans = ans + (z & l);
+            ans = ans + (z & 0x01);
             z = z >>> 1;
         }
 
