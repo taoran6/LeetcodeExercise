@@ -1,7 +1,9 @@
 package com.example.leetcode.string;
 
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -61,6 +63,11 @@ public class LengthOfLongestSubstring {
         return result;
     }
 
+    /**
+     * 方法二：滑动窗口
+     * @param s
+     * @return
+     */
     public int lengthOfLongestSubstring2(String s) {
         if(s == null || s.length() == 0) return 0;
         if(s.length() == 1) return 1;
@@ -83,5 +90,38 @@ public class LengthOfLongestSubstring {
         }
 
         return result;
+    }
+
+    /**
+     * 方法三：优化的滑动窗口
+     */
+    public int lengthOfLongestSubstring3(String s) {
+        if (s == null || s.length() == 0) return 0;
+        int ans = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        map.put(s.charAt(0), 0);
+        for(int end = 0, start = 0; end < s.length(); end++) {
+            if(map.containsKey(s.charAt(end))) {
+                start = Math.max(map.get(s.charAt(end)), start);
+            }
+            ans = Math.max(ans, end - start + 1);
+            map.put(s.charAt(end), end + 1);
+        }
+        return ans;
+    }
+
+    /**
+     * 方法四：用一个整数数组作为直接访问表来替换 Map
+     */
+    public int lengthOfLongestSubstring4(String s) {
+        if (s == null || s.length() == 0) return 0;
+        int ans = 0;
+        int[] index = new int[128];
+        for(int end = 0, start = 0; end < s.length(); end++) {
+            start = Math.max(index[s.charAt(end)], start);
+            ans = Math.max(ans, end - start + 1);
+            index[s.charAt(end)] = end + 1;
+        }
+        return ans;
     }
 }
