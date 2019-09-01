@@ -44,4 +44,31 @@ public class HammingDistance {
 
         return ans;
     }
+
+    /**
+     * 编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。
+     * @param n
+     * @return
+     */
+    public int hammingWeight(int n) {
+        int ans = 0;
+        while (n != 0) {
+            ans += n & 0x01;
+            n = n >>> 1;
+        }
+        return ans;
+    }
+
+    /**
+     * 汉明重量方法二：这里关键的想法是对于任意数字 n ，将 n 和 n−1 做与运算，会把最后一个 1的位变成 0
+     * 如 010100 变成 010000
+     */
+    public int hammingWeight1(int n) {
+        int ans = 0;
+        while (n != 0) {
+            ans ++;
+            n = n & (n - 1);
+        }
+        return ans;
+    }
 }
