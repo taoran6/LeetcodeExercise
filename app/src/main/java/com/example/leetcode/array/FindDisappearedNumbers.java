@@ -47,4 +47,64 @@ public class FindDisappearedNumbers {
         }
         return ans;
     }
+
+    /**
+     * 缺失数字
+     * 给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。
+     *
+     * 示例 1:
+     *
+     * 输入: [3,0,1]
+     * 输出: 2
+     * 示例 2:
+     *
+     * 输入: [9,6,4,2,3,5,7,0,1]
+     * 输出: 8
+     * 说明:
+     * 你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/missing-number
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * 方法一：排序 略
+     * 方法二：hash表 略
+     *
+     * 方法三：位运算
+     * 我们知道数组中有 nn 个数，并且缺失的数在 [0..n][0..n] 中。因此我们可以先得到 [0..n][0..n] 的异或值，
+     * 再将结果对数组中的每一个数进行一次异或运算。未缺失的数在 [0..n][0..n] 和数组中各出现一次，因此异或后得
+     * 到 0。而缺失的数字只在 [0..n][0..n] 中出现了一次，在数组中没有出现，因此最终的异或结果即为这个缺失的数字。
+     *
+     * 在编写代码时，由于 [0..n][0..n] 恰好是这个数组的下标加上 n，因此可以用 一次循环 完成所有的异或运算
+     *
+     * 作者：LeetCode
+     * 链接：https://leetcode-cn.com/problems/missing-number/solution/que-shi-shu-zi-by-leetcode/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     * @param nums
+     * @return
+     */
+    public int missingNumber(int[] nums) {
+        int n = nums.length;
+        int ans = n;
+        for (int i = 0; i < n; i++) {
+            ans = ans ^ i ^ nums[i];
+        }
+        return ans;
+    }
+
+    /**
+     * 方法四：高斯求和,不过可能会有int溢出情况
+     * @param nums
+     * @return
+     */
+    public int missingNumber2(int[] nums) {
+        int n = nums.length;
+        int sum = n * (n + 1) / 2;
+        for(int i = 0; i < n; i++) {
+            sum -= nums[i];
+        }
+        return sum;
+    }
+
 }
