@@ -1,4 +1,4 @@
-package com.example.leetcode.compute;
+package com.example.leetcode.bit;
 
 /**
  * 2的幂
