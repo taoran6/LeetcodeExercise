@@ -26,8 +26,8 @@ public class TrailingZeroes {
      * @return
      */
     public int trailingZeroes(int n) {
-        //todo 输入1808548329 预期结果452137076 而我的是452137078， 多的2哪里来的？
-        n = Math.abs(n);
+        //错误解法，输入1808548329 预期结果452137076 而我的是452137078， 多的2，原因是内存溢出了
+        //参看 https://blog.csdn.net/fy_sun123/article/details/42339579
         int ans = 0;
         int num = 5;
         while (n >= num) {
