@@ -1,4 +1,4 @@
-package com.example.leetcode.compute;
+package com.example.leetcode.math;
 
 /**
  *  阶乘后的零

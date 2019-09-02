@@ -1,4 +1,4 @@
-package com.example.leetcode.compute;
+package com.example.leetcode.math;
 
 import java.util.HashSet;
 import java.util.Set;
