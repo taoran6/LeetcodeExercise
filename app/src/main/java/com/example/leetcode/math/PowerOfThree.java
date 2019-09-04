@@ -5,7 +5,6 @@ package com.example.leetcode.math;
  */
 public class PowerOfThree {
     /**
-     * TODO LeetCode内部错误？？？
      * 给定一个整数，写一个函数来判断它是否是 3 的幂次方。
      * <p>
      * 示例 1:
