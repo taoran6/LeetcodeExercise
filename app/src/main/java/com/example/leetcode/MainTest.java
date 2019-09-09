@@ -1,5 +1,6 @@
 package com.example.leetcode;
 
+import com.example.leetcode.DP.LongestPalindrome;
 import com.example.leetcode.array.TwoSum;
 import com.example.leetcode.math.Excel;
 
@@ -8,6 +9,6 @@ import com.example.leetcode.math.Excel;
  */
 public class MainTest {
     public static void main(String[] args) {
-        System.out.println(new TwoSum().twoSum(new int[]{2,7,11,15}, 9).toString());
+        System.out.println(new LongestPalindrome().longestPalindrome("babad"));
     }
 }
