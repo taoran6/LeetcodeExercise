@@ -43,6 +43,7 @@ public class ThreeSum {
 
         //大于0可以跳出迭代了
         for(int i = 0; i < nums.length - 2 && nums[i] <= 0; i++) {
+            //跳过重复的数字
             if(i != 0 && nums[i] == nums[i - 1]) continue;
             findNumber(nums, - nums[i], i + 1, ansList);
         }
@@ -69,6 +70,7 @@ public class ThreeSum {
                     list1.add(ns);
                     list1.add(ne);
                     list.add(list1);
+                    //跳过重复的数字
                     while (s < nums.length && nums[s] == ns) {
                         s++;
                     }
