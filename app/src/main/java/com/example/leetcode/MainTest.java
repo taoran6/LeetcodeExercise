@@ -1,13 +1,13 @@
 package com.example.leetcode;
 
 import com.example.leetcode.array.SpiralOrder;
+import com.example.leetcode.backtracking.Permute;
 
 /**
  * 测试用
  */
 public class MainTest {
     public static void main(String[] args) {
-        int[][] x = new int[][]{new int[]{1}, new int[]{5}, new int[]{9}};
-        System.out.println(new SpiralOrder().spiralOrder(x));
+        System.out.println(new Permute().permute2(new int[]{1,2,3}));
     }
 }
