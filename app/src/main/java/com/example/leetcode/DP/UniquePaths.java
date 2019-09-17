@@ -60,6 +60,7 @@ public class UniquePaths {
     public int uniquePaths2(int m, int n) {
         if(m < 1 || n < 1) return 0;
         int[] nums = new int[n];
+        //Arrays.fill() 这个方法很有用
         Arrays.fill(nums, 1);
         for (int i = 1; i < m; i++) {
             for(int j = 1; j < n; j++) {

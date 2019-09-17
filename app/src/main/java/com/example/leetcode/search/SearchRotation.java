@@ -30,6 +30,8 @@ public class SearchRotation {
      * @param nums
      * @param target
      * @return
+     *
+     * 核心为二分查找
      */
     public int search(int[] nums, int target) {
         if(nums == null) return -1;
@@ -40,14 +42,17 @@ public class SearchRotation {
         while (start <= end) {
             int mid = (start + end) / 2;
             if(nums[mid] == target) return mid;
-            if(nums[start] <= nums[mid]) {
+            if(nums[start] <= nums[mid]) {      //左半部分已排好序
                 if(target >= nums[start] && target < nums[mid]) {
+                    //找排序的左半部分
                     end = mid - 1;
                 } else {
+                    //找剩下的部分啦
                     start = mid + 1;
                 }
-            } else {
+            } else {    //右半部分已排好序
                 if(target > nums[mid] && target <= nums[end]) {
+                    //找排序的有半部分
                     start = mid + 1;
                 } else {
                     end = mid - 1;

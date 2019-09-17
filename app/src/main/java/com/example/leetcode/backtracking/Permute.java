@@ -59,6 +59,7 @@ public class Permute {
             } else {
                 traceBack(nums, visited, list, ans);
             }
+            //这里记得置为false回溯
             visited[i] = false;
             list.remove(list.size() - 1);
         }
