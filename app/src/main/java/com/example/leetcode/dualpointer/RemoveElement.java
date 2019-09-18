@@ -1,4 +1,4 @@
-package com.example.leetcode.array;
+package com.example.leetcode.dualpointer;
 
 /**
  * 移除元素

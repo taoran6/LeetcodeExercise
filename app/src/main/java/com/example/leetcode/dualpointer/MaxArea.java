@@ -1,4 +1,4 @@
-package com.example.leetcode.array;
+package com.example.leetcode.dualpointer;
 
 /**
  * 盛最多水的容器
