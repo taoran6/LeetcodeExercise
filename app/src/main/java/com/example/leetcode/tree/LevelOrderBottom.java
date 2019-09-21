@@ -43,7 +43,7 @@ public class LevelOrderBottom {
         list.add(root);
         ans.add(new ArrayList<Integer>(){{add(root.val);}});
 
-        List<TreeNode> lastList = list;
+        List<TreeNode> lastList = list;     //保存上一层节点的列表
         while (!lastList.isEmpty()) {
             List<TreeNode> nextList = new ArrayList<>();
             List<Integer> ansList = new ArrayList<>();
@@ -105,10 +105,13 @@ public class LevelOrderBottom {
     }
 
     private void DFS(TreeNode root, int level, List<List<Integer>> ans) {
+        //当前层数还没有元素，先 new 一个空的列表
         if(ans.size() - 1 < level) {
             ans.add(0, new ArrayList<>());
         }
+
         ans.get(ans.size() - level - 1).add(root.val);
+
         if(root.left != null) DFS(root.left, level + 1, ans);
         if(root.right != null) DFS(root.right, level + 1, ans);
     }
