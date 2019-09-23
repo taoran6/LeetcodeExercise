@@ -1,5 +1,7 @@
 package com.example.leetcode.dualpointer;
 
+import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,6 +88,8 @@ public class ThreeSum {
     }
 
     /**
+     * 最接近的三数之和
+     *
      * 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 
      * 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
      *
@@ -101,12 +105,14 @@ public class ThreeSum {
      * @return
      */
     public int threeSumClosest(int[] nums, int target) {
-        //todo 待写完
         if(nums == null || nums.length < 3) return Integer.MAX_VALUE;
 
         int closet = Integer.MAX_VALUE;
+        int ans = Integer.MAX_VALUE;
         Arrays.sort(nums);
-        for(int i = 0; i < nums.length - 3; i ++) {
+
+        //基于三数之和的双指针
+        for(int i = 0; i < nums.length - 2; i ++) {
             int start = i + 1;
             int end = nums.length - 1;
             while (start < end){
@@ -114,10 +120,69 @@ public class ThreeSum {
                 if(sum == target) return target;
                 else if(sum > target) {
                     end --;
+                }else start ++;
+                int abs = Math.abs(sum - target);
+                if(abs < closet) {
+                    ans = sum;
+                    closet = abs;
                 }
             }
         }
 
-        return closet;
+        return ans;
+    }
+
+
+    /**
+     * 在threeSumClosest()的基础上进行了优化
+     */
+    public int threeSumClosest2(int[] nums, int target) {
+        if(nums == null || nums.length < 3) return Integer.MAX_VALUE;
+
+        //采用这种方法初始化比较好
+        int ans = nums[0] + nums[1] + nums[2];
+        int minAbs = Integer.MAX_VALUE;
+
+        Arrays.sort(nums);
+
+        int rangMax = nums[nums.length - 1] + nums[nums.length - 2] + nums[nums.length - 3];
+        // 数组三数和的最大的值比目标还要小,没必要寻找区间其他值的和了
+        if(rangMax < target) {
+            return rangMax;
+        }
+
+        for(int i = 0; i < nums.length - 2; i ++) {
+            int start = i + 1;
+            int end = nums.length - 1;
+
+            int rangMin = nums[i] + nums[i + 1] + nums[i + 2];
+            int abs;
+
+            // 区间最小值比目标大, 没必要寻找区间其他值的和了
+            if(rangMin > target) {
+                abs = rangMin - target;
+                if(abs < minAbs) {
+                    ans = rangMin;
+                }
+                return ans;
+            }
+
+            // 三数之和的双指针
+            while (start < end){
+                int sum = nums[start] + nums[end] + nums[i];
+                if(sum == target) return target;        //直接返回
+                else if(sum > target) {
+                    end --;
+                }else start ++;
+
+                abs = Math.abs(sum - target);
+                if(abs < minAbs) {
+                    ans = sum;
+                    minAbs = abs;
+                }
+            }
+        }
+
+        return ans;
     }
 }

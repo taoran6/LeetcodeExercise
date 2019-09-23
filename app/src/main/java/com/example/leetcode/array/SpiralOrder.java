@@ -65,4 +65,66 @@ public class SpiralOrder {
 
         return ans;
     }
+
+    /**
+     * 螺旋矩阵 II
+     *
+     * 给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+     *
+     * 示例:
+     *
+     * 输入: 3
+     * 输出:
+     * [
+     *  [ 1, 2, 3 ],
+     *  [ 8, 9, 4 ],
+     *  [ 7, 6, 5 ]
+     * ]
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/spiral-matrix-ii
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     */
+    public int[][] generateMatrix(int n) {
+        int[][] ans = new int[n][n];
+        int count = 1;
+        int n2 = n * n;
+        int i = 0; int j = 0;
+
+        //螺旋迭代是状态，一共有四种
+        int state = 0;
+        while (count <= n2) {
+            switch (state) {
+                case 0:     //从左往右
+                    ans[i][j ++] = count ++;
+                    if(j == n || ans[i][j] != 0) {
+                        state = 1;
+                        i++; j--;
+                    }
+                break;
+                case 1:     //从上往下
+                    ans[i ++][j] = count ++;
+                    if(i == n || ans[i][j] != 0) {
+                        state = 2;
+                        i--; j--;
+                    }
+                break;
+                case 2:     //从右往左
+                    ans[i][j --] = count ++;
+                    if(j == -1 || ans[i][j] != 0) {
+                        state = 3;
+                        i--; j++;
+                    }
+                break;
+                case 3:     //从下往上
+                    ans[i --][j] = count ++;
+                    if(i == -1 || ans[i][j] != 0) {
+                        state = 0;
+                        i++; j++;
+                    }
+            }
+        }
+        return ans;
+    }
+
 }

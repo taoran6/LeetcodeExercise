@@ -1,6 +1,8 @@
 package com.example.leetcode;
 
 import com.example.leetcode.array.GenerateTriangle;
+import com.example.leetcode.array.SpiralOrder;
+import com.example.leetcode.dualpointer.ThreeSum;
 import com.example.leetcode.math.Multiply;
 
 /**
@@ -8,6 +10,6 @@ import com.example.leetcode.math.Multiply;
  */
 public class MainTest {
     public static void main(String[] args) {
-        System.out.println(new GenerateTriangle().getRow(3));
+        System.out.println(new SpiralOrder().generateMatrix(3));
     }
 }
