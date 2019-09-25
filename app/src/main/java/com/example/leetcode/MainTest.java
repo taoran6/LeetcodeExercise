@@ -1,15 +1,12 @@
 package com.example.leetcode;
 
-import com.example.leetcode.array.GenerateTriangle;
-import com.example.leetcode.array.SpiralOrder;
-import com.example.leetcode.dualpointer.ThreeSum;
-import com.example.leetcode.math.Multiply;
+import com.example.leetcode.array.LastStoneWeight;
 
 /**
  * 测试用
  */
 public class MainTest {
     public static void main(String[] args) {
-        System.out.println(new SpiralOrder().generateMatrix(3));
+        System.out.println(new LastStoneWeight().lastStoneWeight(new int[]{2,7,4,1,8,1}));
     }
 }
