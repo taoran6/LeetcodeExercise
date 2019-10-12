@@ -46,6 +46,7 @@ public class FindPeakElement {
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
      */
     public int findPeakElement(int[] nums) {
+        //中心思想：二分查找大的那一半一定会有峰值
         if(nums == null || nums.length < 2) return 0;
         int left = 0;
         int right = nums.length - 1;
