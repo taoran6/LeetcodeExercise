@@ -1,13 +1,12 @@
 package com.example.leetcode;
 
-import com.example.leetcode.backtracking.GenerateParenthesis;
-import com.example.leetcode.search.SearchRange;
+import com.example.leetcode.array.Rotate;
 
 /**
  * 测试用
  */
 public class MainTest {
     public static void main(String[] args) {
-        System.out.println(new SearchRange().searchRange(new int[]{5,7,7,8,8,10}, 8));
+        new Rotate().rotate(new int[][]{{1,2,3}, {4,5,6}, {7,8,9}});
     }
 }
