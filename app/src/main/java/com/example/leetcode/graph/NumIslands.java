@@ -53,6 +53,14 @@ public class NumIslands {
         return ans;
     }
 
+    /**
+     * 深度优先搜索
+     *
+     * @param i
+     * @param j
+     * @param grid
+     * @param isVisited
+     */
     private void markGrid(int i, int j, char[][] grid, boolean[][] isVisited) {
         if(grid[i][j] == '1' && !isVisited[i][j]) {
             isVisited[i][j] = true;

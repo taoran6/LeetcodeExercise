@@ -98,6 +98,7 @@ public class UniquePaths {
         int n = grid[0].length;
         if(n == 0) return 0;
 
+        //用一个二维数组存储最小值
         int[][] min = new int[m][n];
         min[0][0] = grid[0][0];
         for(int i = 1; i < n; i++) min[0][i] = min[0][i - 1] + grid[0][i];
@@ -109,6 +110,31 @@ public class UniquePaths {
             }
         }
         return min[m - 1][n - 1];
+    }
+
+    /**
+     * 方法二：将最小值就地保存到grid中，代码略
+     *
+     * 方法三：用一维数组存储
+     * @param grid
+     * @return
+     */
+    public int minPathSum2(int[][] grid) {
+        int m = grid.length;
+        if(m == 0) return 0;
+        int n = grid[0].length;
+        if(n == 0) return 0;
+
+        int[] min = new int[n];
+        min[0] = grid[0][0];
+        for (int i = 1; i < n; i++) min[i] = min[i - 1] + grid[0][i];
+        for (int i = 1; i < m; i++) {
+            min[0] += grid[i][0];
+            for (int j = 1; j < n; j++) {
+                min[j] = Math.min(min[j], min[j - 1]) + grid[i][j];
+            }
+        }
+        return min[n - 1];
     }
 
 }
