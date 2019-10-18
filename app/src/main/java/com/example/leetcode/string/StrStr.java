@@ -69,4 +69,20 @@ public class StrStr {
 
         return -1;
     }
+
+    /**
+     * 转换成小写字母
+     * @param str
+     * @return
+     */
+    public String toLowerCase(String str) {
+        StringBuilder builder = new StringBuilder(str);
+        for(int i = 0; i < builder.length(); i++) {
+            char c = builder.charAt(i);
+            if(c >= 'A' && c <= 'Z') {
+                builder.setCharAt(i, (char) (c + 'a' - 'A'));
+            }
+        }
+        return builder.toString();
+    }
 }
