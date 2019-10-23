@@ -32,33 +32,33 @@ public class ExistWord {
 
         int m = board.length;       // 行数
         int n = board[0].length;    // 列数
-        boolean[][] isVisited = new boolean[m][n];
 
         char[] words = word.toCharArray();
         for (int i = 0; i< m; i++) {
             for (int j = 0; j < n; j++) {
                 if(words[0] == board[i][j]) {
-                    isVisited[i][j] = true;
                     if(words.length == 1) return true;
-                    if(exist(board, isVisited, words, 1, i, j)) return true;
-                    isVisited[i][j] = false;
+                    //可以采用这种方式标记已经访问过，减少一个 m*n 的boolean数组空间
+                    board[i][j] = '.';
+                    if(exist(board, words, 1, i, j)) return true;
+                    board[i][j] = words[0];
                 }
             }
         }
         return false;
     }
 
-    private boolean exist(char[][] board, boolean[][] isVisited, char[] words, int index, int x, int y) {
+    private boolean exist(char[][] board, char[] words, int index, int x, int y) {
         int[][] newPoint = new int[][] {{x - 1, y}, {x + 1, y}, {x, y -1}, {x, y + 1}};
         for (int i = 0; i < 4; i++) {
             int newX = newPoint[i][0];
             int newY = newPoint[i][1];
             if (newX >= 0 && newY >= 0 && newX < board.length && newY < board[0].length
-                    && !isVisited[newX][newY] && words[index] == board[newX][newY]) {
+                    && words[index] == board[newX][newY]) {
                 if(index == words.length - 1) return true;
-                isVisited[newX][newY] = true;
-                if(exist(board, isVisited, words, index + 1, newX, newY)) return true;
-                isVisited[newX][newY] = false;
+                board[newX][newY] = '.';
+                if(exist(board, words, index + 1, newX, newY)) return true;
+                board[newX][newY] = words[index];
             }
         }
         return false;
