@@ -52,7 +52,7 @@ public class SearchRotation {
                 }
             } else {    //右半部分已排好序
                 if(target > nums[mid] && target <= nums[end]) {
-                    //找排序的有半部分
+                    //找排序的右半部分
                     start = mid + 1;
                 } else {
                     end = mid - 1;
