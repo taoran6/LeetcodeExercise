@@ -56,6 +56,22 @@ public class IsSubsequence {
         return false;
     }
 
+    public boolean isSubsequence3(String s, String t) {
+        if (s.length() == 0) return true;
+
+        int sLength = s.length();
+        int tLength = t.length();
+
+        int p = 0;
+        for (int i = 0; i < tLength; i++) {
+            if (t.charAt(i) == s.charAt(p)) {
+                if (p == sLength - 1) return true;
+                else p++;
+            }
+        }
+        return false;
+    }
+
     /**
      * 用时：1ms
      * TODO 使用indexOf(), 为什么比原生的查找快很多？
