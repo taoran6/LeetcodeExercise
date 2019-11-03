@@ -32,15 +32,15 @@ public class NumSquares {
     public int numSquares1(int n) {
         if(n <= 0) return 0;
 
-        int[] counts = new int[n + 1];
+        int[] dp = new int[n + 1];
 
-        //i从1开始 counts[0] = 0
+        //i从1开始 dp[0] = 0
         for(int i = 1; i <= n; i++) {
-            counts[i] = counts[i - 1] + 1;
+            dp[i] = dp[i - 1] + 1;
             for (int j = 1; i / j >= j; j++)        //使用除法防止溢出
-                counts[i] = Math.min(counts[i], counts[i - j * j] + 1);
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
         }
-        return counts[n];
+        return dp[n];
     }
 
     /**
@@ -52,7 +52,7 @@ public class NumSquares {
     public int numSquares2(int n) {
         if(n <= 0) return 0;
 
-        int[] counts = new int[n + 1];
+        int[] dp = new int[n + 1];
 
         //存储完全平方数的值
         int[] squares = new int[n + 1];
@@ -61,20 +61,20 @@ public class NumSquares {
         for(; n / k >= k; k++) {
             int k2 = k * k;
             squares[k] = k2;
-            counts[k2] = 1;
+            dp[k2] = 1;
         }
         if (n == squares[k - 1]) return 1;
         squares[k] = n + 1; //最后一位使用最大值，以满足i - squares[j] < 0 的情况
 
         for(int i = 1; i <= n; i++) {
-            if(counts[i] != 0) continue;       //完全平方数直接跳过
-            counts[i] = counts[i - 1] + 1;
+            if(dp[i] != 0) continue;       //完全平方数直接跳过
+            dp[i] = dp[i - 1] + 1;
 
             //这里用的不是 i - squares[j]>=0 因为完全平方数的情况在上面已经跳过了
             for (int j = 2; i - squares[j] > 0; j++)
-                counts[i] = Math.min(counts[i], counts[i - squares[j]] + 1);
+                dp[i] = Math.min(dp[i], dp[i - squares[j]] + 1);
         }
-        return counts[n];
+        return dp[n];
     }
 
     /**

@@ -74,7 +74,6 @@ public class IsSubsequence {
 
     /**
      * 用时：1ms
-     * TODO 使用indexOf(), 为什么比原生的查找快很多？
      */
     public boolean isSubsequence2(String s, String t) {
         int index = 0;
