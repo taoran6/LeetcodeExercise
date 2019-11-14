@@ -23,56 +23,50 @@ public class MyStack {
      * 来源：力扣（LeetCode）
      * 链接：https://leetcode-cn.com/problems/implement-stack-using-queues
      * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * 方法一：使用另一个队列辅助
+     * push的时间复杂度O(1),pop的时间复杂度O(n)
+     *
+     * 另一种方法是push的时间复杂度O(n),pop的时间复杂度O(1),也是用一个队列辅助，思路都是差不多的
+     *
+     * 方法三: 参见{@link MyStack2}
      */
 
-    private Queue<Integer> queue1;
-    private Queue<Integer> queue2;
+    private Queue<Integer> queue;
+    private Queue<Integer> queueHelp;
     private int top;
 
 
     /** Initialize your data structure here. */
     public MyStack() {
-        queue1 = new LinkedList<>();
-        queue2 = new LinkedList<>();
+        queue = new LinkedList<>();
+        queueHelp = new LinkedList<>();
     }
 
     /** Push element x onto stack. */
     public void push(int x) {
-        if(queue2.isEmpty()) {
-            queue1.offer(x);
-        } else {
-            queue2.offer(x);
-        }
+        queue.offer(x);
         top = x;
     }
 
     /** Removes the element on top of the stack and returns that element. */
     public int pop() {
-        if(empty()) return 0;
+        if(queue.isEmpty()) return 0;
 
-        if(queue1.isEmpty()) {
-            for (int i = 0; i < queue2.size() - 2; i++) {
-                queue1.offer(queue2.poll());
-            }
-            if(queue2.size() > 1) {
-                top = queue2.poll();
-                queue1.offer(top);
-            } else {
-                top = 0;
-            }
-            return queue2.poll();
-        } else {
-            for (int i = 0; i < queue1.size() - 2; i++) {
-                queue2.offer(queue1.poll());
-            }
-            if(queue1.size() > 1) {
-                top = queue1.poll();
-                queue2.offer(top);
-            } else {
-                top = 0;
-            }
-            return queue1.poll();
+        for (int i = 0; i < queue.size() - 2; i++) {
+            queueHelp.offer(queue.poll());
         }
+        if(queue.size() > 1) {
+            top = queue.poll();
+            queueHelp.offer(top);
+        } else {
+            top = 0;
+        }
+        //交换queue和queueHelp，避免拷贝
+        Queue<Integer> tmp = queue;
+        queue = queueHelp;
+        queueHelp = tmp;
+        return queueHelp.poll();
     }
 
     /** Get the top element. */
@@ -82,7 +76,7 @@ public class MyStack {
 
     /** Returns whether the stack is empty. */
     public boolean empty() {
-        return queue1.isEmpty() && queue2.isEmpty();
+        return queue.isEmpty();
     }
 
     /**
