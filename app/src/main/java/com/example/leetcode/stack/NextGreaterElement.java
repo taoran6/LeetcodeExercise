@@ -43,6 +43,7 @@ public class NextGreaterElement {
      * 思路：使用单调栈
      *
      * ps:如果想要优化执行时间的话可以用int[]和int top代替Stack，用int[]代替Map，这里思路是一样的，就不写了。
+     * 方法一：从后往前遍历
      */
     public int[] nextGreaterElementI(int[] nums1, int[] nums2) {
         Stack<Integer> stack = new Stack<>();
@@ -65,23 +66,51 @@ public class NextGreaterElement {
     }
 
     /**
-     * 给定一个循环数组（最后一个元素的下一个元素是数组的第一个元素），输出每个元素的下一个更大元素。数字 x 的下
-     * 一个更大的元素是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的
-     * 数。如果不存在，则输出 -1。
-     *
-     * 示例 1:
-     *
-     * 输入: [1,2,1]
-     * 输出: [2,-1,2]
-     * 解释: 第一个 1 的下一个更大的数是 2；
-     * 数字 2 找不到下一个更大的数；
-     * 第二个 1 的下一个最大的数需要循环搜索，结果也是 2。
-     * 注意: 输入数组的长度不会超过 10000。
-     *
-     * 来源：力扣（LeetCode）
-     * 链接：https://leetcode-cn.com/problems/next-greater-element-ii
-     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * 方法二：从前往后遍历
+     * @param nums1
+     * @param nums2
+     * @return
      */
+    public int[] nextGreaterElementI2(int[] nums1, int[] nums2) {
+        Stack<Integer> stack = new Stack<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < nums2.length; i++) {
+            while (!stack.empty() && nums2[i] > stack.peek()) {
+                map.put(stack.pop(), nums2[i]);
+            }
+            stack.push(nums2[i]);
+        }
+
+        while (!stack.empty()) {
+            map.put(stack.pop(), -1);
+        }
+
+        int[] ans = new int[nums1.length];
+        for(int i = 0; i < nums1.length; i++) {
+            ans[i] = map.get(nums1[i]);
+        }
+        return ans;
+    }
+
+
+        /**
+         * 给定一个循环数组（最后一个元素的下一个元素是数组的第一个元素），输出每个元素的下一个更大元素。数字 x 的下
+         * 一个更大的元素是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的
+         * 数。如果不存在，则输出 -1。
+         *
+         * 示例 1:
+         *
+         * 输入: [1,2,1]
+         * 输出: [2,-1,2]
+         * 解释: 第一个 1 的下一个更大的数是 2；
+         * 数字 2 找不到下一个更大的数；
+         * 第二个 1 的下一个最大的数需要循环搜索，结果也是 2。
+         * 注意: 输入数组的长度不会超过 10000。
+         *
+         * 来源：力扣（LeetCode）
+         * 链接：https://leetcode-cn.com/problems/next-greater-element-ii
+         * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+         */
     public int[] nextGreaterElementsII(int[] nums) {
         int[] ans = new int[nums.length];
 
@@ -110,5 +139,25 @@ public class NextGreaterElement {
         return ans;
     }
 
-    //TODO 取余的方法
+    /**
+     * 方法二：代码简洁版，直接取余，不过因为每个元素入栈了两次所以效率比上一个低
+     * @param nums
+     * @return
+     */
+    public int[] nextGreaterElementsII2(int[] nums) {
+        int[] ans = new int[nums.length];
+
+        Stack<Integer> stack = new Stack<>();
+
+        for(int i = nums.length * 2 - 1; i >= 0; i--) {
+            int index = i % nums.length;
+            while (!stack.empty() && nums[index] >= stack.peek()) {
+                stack.pop();
+            }
+            if(stack.empty()) ans[index] = -1;
+            else ans[index] = stack.peek();
+            stack.push(nums[index]);
+        }
+        return ans;
+    }
 }
