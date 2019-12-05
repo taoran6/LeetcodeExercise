@@ -108,4 +108,53 @@ public class FindDisappearedNumbers {
         return sum;
     }
 
+    /**
+     * 41. 缺失的第一个正数
+     *
+     * 给定一个未排序的整数数组，找出其中没有出现的最小的正整数。
+     *
+     * 示例 1:
+     *
+     * 输入: [1,2,0]
+     * 输出: 3
+     * 示例 2:
+     *
+     * 输入: [3,4,-1,1]
+     * 输出: 2
+     * 示例 3:
+     *
+     * 输入: [7,8,9,11,12]
+     * 输出: 1
+     * 说明:
+     *
+     * 你的算法的时间复杂度应为O(n)，并且只能使用常数级别的空间。
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/first-missing-positive
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * 首先我们可以不考虑负数和零，因为不需要考虑。同样可以不考虑大于 n 的数字，
+     * 因为首次缺失的正数一定小于或等于 n + 1 。n为数组长度
+     * 第一步：将数据放到他本来应该在的位置，即nums[i]=i+1,
+     * 第二步：遍历数组，如果哪个位置nums[i]!=i+1,则他就是缺失的数。
+     */
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        for(int i = 0; i < n; i++) {
+            //注意这里要忽略重复数字的出现，所以要判断 nums[nums[i] - 1] != nums[i]
+            while (/*nums[i] != i + 1 &&*/ nums[i] >0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
+                //交换nums[i]和nums[nums[i] - 1]
+                int tmp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = tmp;
+            }
+        }
+
+        int i = 0;
+        for (; i < n; i++) {
+            if(nums[i] != i + 1) return i + 1;
+        }
+        return i + 1;
+    }
+
 }

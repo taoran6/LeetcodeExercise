@@ -50,6 +50,26 @@ public class ClimbStairs {
     }
 
     /**
+     * 1137. 第 N 个泰波那契数
+     * @param n
+     * @return
+     */
+    public int tribonacci(int n) {
+        if(n == 0) return 0;
+
+        int n0 = 0;
+        int n1 = 1;
+        int n2 = 1;
+        for (int i = 3; i <= n; i++) {
+            int tmp = n1 + n2 + n0;
+            n0 = n1;
+            n1 = n2;
+            n2 = tmp;
+        }
+        return n2;
+    }
+
+    /**
      * 746. 使用最小花费爬楼梯
      *
      * 数组的每个索引做为一个阶梯，第 i个阶梯对应着一个非负数的体力花费值 cost[i](索引从0开始)。
