@@ -1,9 +1,7 @@
 package com.example.leetcode;
 
-import com.example.leetcode.dualpointer.FourSum;
-import com.example.leetcode.linkedlist.InsertionSortList;
-import com.example.leetcode.linkedlist.ListNode;
-import com.example.leetcode.stack.DecodeString;
+import com.example.leetcode.DP.ClimbStairs;
+import com.example.leetcode.DP.NumDecodings;
 
 /**
  * 测试用
@@ -11,6 +9,6 @@ import com.example.leetcode.stack.DecodeString;
 public class MainTest {
     public static void main(String[] args) {
         //这里写测试用例
-        new FourSum().fourSum(new int[]{1,0,-1,0,-2,2}, 0);
+        new NumDecodings().numDecodings2("226");
     }
 }

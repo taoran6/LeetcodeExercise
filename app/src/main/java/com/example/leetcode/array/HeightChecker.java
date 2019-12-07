@@ -69,4 +69,55 @@ public class HeightChecker {
         return ans;
     }
 
+    /**
+     * 665. 非递减数列
+     * 给定一个长度为 n 的整数数组，你的任务是判断在最多改变 1 个元素的情况下，该数组能否变成一个非递减数列。
+     *
+     * 我们是这样定义一个非递减数列的： 对于数组中所有的 i (1 <= i < n)，满足 array[i] <= array[i + 1]。
+     *
+     * 示例 1:
+     *
+     * 输入: [4,2,3]
+     * 输出: True
+     * 解释: 你可以通过把第一个4变成1来使得它成为一个非递减数列。
+     * 示例 2:
+     *
+     * 输入: [4,2,1]
+     * 输出: False
+     * 解释: 你不能在只改变一个元素的情况下将其变为非递减数列。
+     * 说明:  n 的范围为 [1, 10,000]。
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/non-decreasing-array
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * 1256123
+     * 13423
+     *
+     * 天呐这题好难，提交了4次都不通过呜呜呜~~~
+     * 看了一下别人的题解
+     *
+     * 在遍历的过程中修改数组，如果出现nums[i]>nums[i+1]，则需要修改一个数，修改flag标志位，而修改分两种情况：
+     * 1.如果i是0或者i-1的值小于i+1的值，就将nums[i]减小为nums[i+1]；
+     * 2.如果i+1的值小于i-1的值，就将nums[i+1]增大为nums[i]；
+     *
+     * 作者：zackqf
+     * 链接：https://leetcode-cn.com/problems/non-decreasing-array/solution/javade-liang-chong-jie-ti-fang-fa-by-zackqf/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     */
+    public boolean checkPossibility(int[] nums) {
+        boolean flag = false;
+
+        for(int i = 0; i < nums.length - 1; i++) {
+            if(nums[i] > nums[i+1]) {
+                if(flag) return false;
+                flag = true;
+                if(i == 0 || nums[i - 1] <= nums[i + 1]) nums[i] = nums[i+1];
+                else nums[i+1] = nums[i];
+            }
+        }
+
+        return true;
+    }
+
 }
