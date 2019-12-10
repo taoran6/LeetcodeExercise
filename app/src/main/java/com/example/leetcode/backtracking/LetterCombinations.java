@@ -49,4 +49,63 @@ public class LetterCombinations {
         return ans;
     }
 
+    /**
+     * 520. 检测大写字母
+     *
+     * 给定一个单词，你需要判断单词的大写使用是否正确。
+     *
+     * 我们定义，在以下情况时，单词的大写用法是正确的：
+     *
+     * 全部字母都是大写，比如"USA"。
+     * 单词中所有字母都不是大写，比如"leetcode"。
+     * 如果单词不只含有一个字母，只有首字母大写， 比如 "Google"。
+     * 否则，我们定义这个单词没有正确使用大写字母。
+     *
+     * 示例 1:
+     *
+     * 输入: "USA"
+     * 输出: True
+     * 示例 2:
+     *
+     * 输入: "FlaG"
+     * 输出: False
+     *
+     * 注意: 输入是由大写和小写拉丁字母组成的非空单词。
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/detect-capital
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * 方法一：正着遍历，在下面写到的就是方法一
+     * 方法二：反着遍历
+     * 正着遍历的话，需要确定前两个字母才可以确定该单词的组成，太麻烦。
+     * 所以我们先看最后一个字母，如果最后一个字母是大写，那该单词如果正确，那所有字母都是大写。
+     * 如果最后一个字母小写，那除了第一个字母无所谓之外，其余所有字母必须小写。
+     *
+     * 作者：hao-fei-hao
+     * 链接：https://leetcode-cn.com/problems/detect-capital/solution/java1ms100-by-hao-fei-hao/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     */
+    public boolean detectCapitalUse(String word) {
+        //方法一
+        if(word.length() < 2) return true;
+
+        char[] words = word.toCharArray();
+        boolean isUpAll = false;
+        if(words[0] >= 'A' && words[0] <= 'Z' && words[1] >= 'A' && words[1] <= 'Z') {
+            isUpAll = true;
+        }
+
+        //i从1开始，第一个字母大小写无所谓
+        for (int i = 1; i < words.length; i++) {
+            if(isUpAll) {
+                if(!(words[i] >= 'A' && words[i] <= 'Z')) return false;
+            } else if(!(words[i] >= 'a' && words[i] <= 'z')) return false;
+        }
+
+        return true;
+
+    }
+
 }
