@@ -38,7 +38,6 @@ public class CoinChange {
 
     private int getCoinChange(int[] coins, int amount, int[] counts) {
         if(amount == 0) return 0;
-        if(amount < coins[0]) return -1;
 
         if(counts[amount] != 0) return counts[amount];
         int min = Integer.MAX_VALUE;
@@ -54,9 +53,20 @@ public class CoinChange {
     }
 
     /**
-     * 方法二：TODO 后面再写吧，妈呀今天好累
+     * 方法二：动态规划，自下而上
      */
     public int coinChange2(int[] coins, int amount) {
-        return -1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if(i >= coin && dp[i - coin] != Integer.MAX_VALUE)
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+
+        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
     }
 }
