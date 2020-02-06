@@ -6,6 +6,7 @@ import com.example.leetcode.array.FindKthLargest;
 import com.example.leetcode.bit.ReverseBits;
 import com.example.leetcode.graph.CalcEquation;
 import com.example.leetcode.sort.ArrayPairSum;
+import com.example.leetcode.stack.IsPopOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class MainTest {
         quer.add(new ArrayList<String>(){{add("x"); add("x");}});
 
 
-        new CalcEquation().calcEquation(equ, new double[]{0.0, 3.0}, quer);
+        boolean out = new IsPopOrder().IsPopOrder(new int[]{1,2,3,4,5}, new int[] {4,3,5,1,2});
+        System.out.println(out);
     }
 }

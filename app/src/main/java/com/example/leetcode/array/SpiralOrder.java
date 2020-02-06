@@ -67,6 +67,32 @@ public class SpiralOrder {
     }
 
     /**
+     * 解法二：循环次数比上一个方法多一次循环
+     */
+    public ArrayList<Integer> printMatrix(int [][] matrix) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        if(matrix.length == 0 || matrix[0].length == 0) return ans;
+
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int n = row > col ? col : row;
+
+        //这里循环次数(n + 1)/2而不是（n/2+ 1）
+        for(int i = 0; i < (n + 1)/2; i++){
+            for(int j = i; j < col-i; j++) ans.add(matrix[i][j]);
+            //已是最后一行，提前结束
+            if((row - i * 2) == 1) return ans;
+            for(int j = i+1; j < row-i; j++) ans.add(matrix[j][col-i-1]);
+            //已是最后一列，提前结束
+            if((col - i * 2) == 1) return ans;
+            for(int j = col-i-2; j >= i; j--) ans.add(matrix[row-i-1][j]);  //这个边界别错了
+            for(int j = row-i-2; j > i; j--) ans.add(matrix[j][i]);
+        }
+
+        return ans;
+    }
+
+    /**
      * 螺旋矩阵 II
      *
      * 给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。

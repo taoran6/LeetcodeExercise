@@ -39,6 +39,24 @@ public class ReverseList {
         return before;
     }
 
+    public ListNode reverseListNK(ListNode head) {
+        if(head == null) return head;
+        ListNode before = head;
+        ListNode mid = head.next;
+        //如果是这种写法的话，这里一定要加，否则会死循环
+        head.next = null;
+
+        while(mid != null) {
+            ListNode behind = mid.next;
+            mid.next = before;
+            before = mid;
+            mid = behind;
+        }
+
+        return before;
+
+    }
+
     /**
      * 方法二：递归
      * @param head
