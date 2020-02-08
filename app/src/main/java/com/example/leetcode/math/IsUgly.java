@@ -46,4 +46,40 @@ public class IsUgly {
         }
         return true;
     }
+
+    /**
+     * 把只包含质因子2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含质因子7。 习惯
+     * 上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
+     *
+     * 思路：使用动态规划，跟踪
+     */
+    public int GetUglyNumber_Solution(int index) {
+        //小于0的情况，坑死了
+        if(index <= 0) return 0;
+
+        int[] ansArray = new int[index];
+        //第一个丑数
+        ansArray[0] = 1;
+        //t2、t3、t5分别记录了计算下一个丑数时，可以乘2、乘3或乘5的最小丑数。
+        int t2 = 0;
+        int t3 = 0;
+        int t5 = 0;
+        for (int i = 1; i < index; i++) {
+            //取这三个中最小的一个
+            ansArray[i] = min(ansArray[t2] * 2, ansArray[t3] * 3, ansArray[t5] * 5);
+            // 注意这里当ansArray[t2] * 2和ansArray[t3] * 3相等（如3*2和2*3）时，t2和t3都是要指针前移的，
+            // 因此不会重复！
+            if(ansArray[i] == ansArray[t2] * 2) t2 ++; //指针前移一个
+            if(ansArray[i] == ansArray[t3] * 3) t3 ++;
+            if(ansArray[i] == ansArray[t5] * 5) t5 ++;
+        }
+        return ansArray[index - 1];
+    }
+
+    private int min(int a, int b, int c) {
+        int min = a;
+        if(b < min) min = b;
+        if(c < min) min = c;
+        return min;
+    }
 }
