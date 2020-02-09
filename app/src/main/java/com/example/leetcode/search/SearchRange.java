@@ -137,4 +137,41 @@ public class SearchRange {
         if (left == 0) return -1;
         return nums[left-1] == target ? (left-1) : -1;
     }
+
+    /**
+     * 方法三：我自己的写法，还是习惯闭区间
+     * @param array
+     * @param k
+     * @return
+     */
+    public int GetNumberOfK(int [] array , int k) {
+        if(array == null || array.length == 0) return 0;
+        int left = leftBound(array, k);
+        int right = rightBound(array, k);
+        return left == -1 ? 0 : right - left + 1;
+    }
+
+    private int leftBound(int[] array, int k) {
+        int start = 0;
+        int end = array.length - 1;
+        while(start < end) {
+            int mid = start + (end - start)/2;
+            if(array[mid] != k && array[mid + 1] == k) return mid+1;
+            else if(array[mid] < k) start = mid+1;
+            else end = mid;
+        }
+        return array[start] == k ? start : -1;
+    }
+
+    private int rightBound(int[] array, int k) {
+        int start = 0;
+        int end = array.length - 1;
+        while(start < end) {
+            int mid = start + (end - start) /2;
+            if(array[mid] == k && array[mid + 1] != k) return mid;
+            else if(array[mid] <= k) start = mid + 1;
+            else end = mid;
+        }
+        return array[start] == k ? start : -1;
+    }
 }

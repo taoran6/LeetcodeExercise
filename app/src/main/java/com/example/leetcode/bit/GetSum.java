@@ -33,6 +33,7 @@ public class GetSum {
             int ma = a & mask;
             int mb = b & mask;
             ans = ans | (ma ^ mb ^ flag);
+            //！！注意这里进位要左移
             flag = ((ma & mb) | (flag & ma) | (flag & mb)) << 1;
             mask = mask << 1;
         }
@@ -62,5 +63,39 @@ public class GetSum {
             return getSum(forward, ans);
         }
         return ans;
+    }
+
+    /**
+     * 方法三：1.两个数异或：相当于每一位相加，而不考虑进位；
+     * 2.两个数相与，并左移一位：相当于求得进位；
+     * 3.将上述两步的结果相加
+     */
+    public int getSum3(int num1, int num2) {
+        int carry = 0;
+        while (num2 != 0) {
+            int sum = num1 ^ num2;
+            //！！注意这里进位要左移
+            carry = (num1 & num2) << 1;
+            num2 = carry;
+            num1 = sum;
+        }
+        return num1;
+    }
+
+    /**
+     * 求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及
+     * 条件判断语句（A?B:C）。
+     *
+     * 链接：https://www.nowcoder.com/questionTerminal/7a0da8fc483247ff8800059e12d7caf1?f=discussion
+     * 来源：牛客网
+     *
+     * 1.需利用逻辑与的短路特性实现递归终止。
+     * 2.当n==0时，(n>0)&&((sum+=Sum_Solution(n-1))>0)只执行前面的判断，为false，然后直接返回0；
+     * 3.当n>0时，执行sum+=Sum_Solution(n-1)，实现递归计算Sum_Solution(n)。
+     */
+    public int Sum_Solution(int n) {
+        int sum = n;
+        boolean test = (n > 0) && ((sum += Sum_Solution(n-1)) > 0);
+        return sum;
     }
 }

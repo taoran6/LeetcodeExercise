@@ -132,7 +132,7 @@ public class HasCycle {
     public ListNode detectCycle(ListNode head) {
         if(head == null || head.next == null) return null;
 
-        // ！注意这里初始条件和上一个方法稍有不同，起点为head
+        // ！注意这里提前走了一步，否则slow和fast就相等了
         ListNode slow = head.next;
         ListNode fast = head.next.next;
 
@@ -212,4 +212,35 @@ public class HasCycle {
      * 单比较，我觉得应该就很不错了。对于这道题，快慢指针的方法太tricky了，感觉面试的时候说方法三是给自己挖坑。
      */
 
+    /**
+     * 输入两个链表，找出它们的第一个公共结点。
+     *
+     * https://www.nowcoder.com/practice/6ab1d9a29e88450685099d45c9e31e46?tpId=13&tqId=11189&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
+     */
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        ListNode p1 = pHead1;
+        ListNode p2 = pHead2;
+        int n1 = 0;
+        int n2 = 0;
+        while (p1 != null) {
+            n1++;
+            p1 = p1.next;
+        }
+        while (p2 != null) {
+            n2++;
+            p2 = p2.next;
+        }
+
+        p1 = pHead1; p2 = pHead2;
+        if(n1 > n2){
+            for (int i = 0; i < n1-n2; i++) p1 = p1.next;
+        }else {
+            for (int i = 0; i < n2-n1; i++) p2 = p2.next;
+        }
+
+        while (p1 != p2) {
+            p1 = p1.next; p2 = p2.next;
+        }
+        return p1;
+    }
 }
