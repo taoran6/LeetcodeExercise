@@ -101,6 +101,34 @@ public class RemoveElements {
     }
 
     /**
+     * 在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。
+     * 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+     */
+    public ListNode deleteDuplication(ListNode pHead)
+    {
+        ListNode head = new ListNode(0);
+        head.next = pHead;
+
+        ListNode pre = head;
+        ListNode p = pHead;
+        while(p != null) {
+            ListNode tail = p;
+            while (tail.next != null && tail.next.val == p.val) {
+                tail = tail.next;
+            }
+            if(tail == p) {
+                p = p.next;
+                pre = pre.next;
+            } else {
+                p = tail.next;
+                pre.next = p;
+            }
+
+        }
+        return head.next;
+    }
+
+    /**
      * 删除链表的倒数第N个节点
      *
      * 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
