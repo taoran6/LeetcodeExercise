@@ -86,4 +86,38 @@ public class InorderTraversal {
 
         return ans;
     }
+
+    /**
+     * 二叉树的下一个结点
+     *
+     * 给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结
+     * 点，同时包含指向父结点的指针。
+     */
+    public TreeLinkNode GetNext(TreeLinkNode pNode) {
+        if(pNode == null) return null;
+
+        if(pNode.right != null){        //右节点不为空，在右子树上
+            TreeLinkNode node = pNode.right;
+            while (node.left != null) node = node.left;
+            return node;
+        } else {    //右节点为空，找父节点
+            TreeLinkNode root = pNode;
+            //满足while条件说明该父节点（root.next）已经遍历过了，找父节点的父节点
+            while (root.next != null && root.next.right == root) root = root.next;
+            //包括了root.next是null的情况
+            return root.next;
+        }
+    }
+
+    public class TreeLinkNode {
+        int val;
+        TreeLinkNode left = null;
+        TreeLinkNode right = null;
+        //其实这里应该叫parent
+        TreeLinkNode next = null;
+
+        TreeLinkNode(int val) {
+            this.val = val;
+        }
+    }
 }
