@@ -213,6 +213,55 @@ public class HasCycle {
      */
 
     /**
+     * 本题的关键是用利用n+1个数，每个数都在1到n之间。
+     *
+     * 重复的数也是在1到n之间。
+     *
+     * 对[1,n]二分，确定重复的数在区间的那边。
+     *
+     * 例如：[4,3,1,2,1]
+     *
+     * n=4
+     *
+     * mid=(1+4)/2=2
+     *
+     * 小于等于mid=2的数的个数为3,[1,2,1]。
+     *
+     * 明确如果没有重复，<=2的数的个数应该为2.
+     *
+     * 这说明重复的数在[1,2]这个区间中。
+     *
+     * mid=(1+2)/2=1。
+     *
+     * <=mid=1的数的个数为2.
+     *
+     * 如果没有重复，<=1的数的个数应该为1.
+     *
+     * 说明1重复了。
+     *
+     * 作者：jason-2
+     * 链接：https://leetcode-cn.com/problems/find-the-duplicate-number/solution/er-fen-fa-by-jason-2/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     * @param nums
+     * @return
+     */
+    public int findDuplicate2(int[] nums) {
+        int start = 1;
+        int end = nums.length - 1;
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            int leftNum = 0;
+            for (int i : nums){
+                if(i <= mid) leftNum ++;
+            }
+            if(leftNum > mid) end = mid;
+            else start = mid+1;
+        }
+        return start;
+    }
+
+    /**
      * 输入两个链表，找出它们的第一个公共结点。
      *
      * https://www.nowcoder.com/practice/6ab1d9a29e88450685099d45c9e31e46?tpId=13&tqId=11189&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking

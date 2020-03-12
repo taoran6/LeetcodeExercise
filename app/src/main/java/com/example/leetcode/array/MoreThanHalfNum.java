@@ -27,9 +27,11 @@ public class MoreThanHalfNum {
                 res = array[i];
             }
             if(res == array[i]) times++;
+            //出现次数相抵消
             else times--;
         }
 
+        //重新遍历一遍确定是否符合超过一半
         times = 0;
         for (int i = 0; i < array.length; i++) {
             if(array[i] == res) times++;
