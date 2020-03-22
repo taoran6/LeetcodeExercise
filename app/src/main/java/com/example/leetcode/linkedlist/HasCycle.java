@@ -128,6 +128,8 @@ public class HasCycle {
      * 链接：https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode/
      * 来源：力扣（LeetCode）
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     *
+     * 图解可以看 https://blog.csdn.net/coraline_m/article/details/102594511  公式很详细
      */
     public ListNode detectCycle(ListNode head) {
         if(head == null || head.next == null) return null;
@@ -264,6 +266,8 @@ public class HasCycle {
     /**
      * 输入两个链表，找出它们的第一个公共结点。
      *
+     * 有公共节点的链表实际上是Y字型
+     *
      * https://www.nowcoder.com/practice/6ab1d9a29e88450685099d45c9e31e46?tpId=13&tqId=11189&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
      */
     public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
@@ -271,6 +275,7 @@ public class HasCycle {
         ListNode p2 = pHead2;
         int n1 = 0;
         int n2 = 0;
+        //先计算两个链表长度
         while (p1 != null) {
             n1++;
             p1 = p1.next;
@@ -281,12 +286,14 @@ public class HasCycle {
         }
 
         p1 = pHead1; p2 = pHead2;
+        //先走多出来的那部分长度
         if(n1 > n2){
             for (int i = 0; i < n1-n2; i++) p1 = p1.next;
         }else {
             for (int i = 0; i < n2-n1; i++) p2 = p2.next;
         }
 
+        //最后一定会相交或者为null
         while (p1 != p2) {
             p1 = p1.next; p2 = p2.next;
         }

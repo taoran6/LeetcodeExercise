@@ -1,6 +1,8 @@
 package com.example.leetcode.search;
 
 
+import java.util.PriorityQueue;
+
 /**
  * 寻找峰值
  */
@@ -123,5 +125,19 @@ public class FindPeakElement {
                 hi = mi;
         }
         return lo;
+    }
+
+
+    public interface I {
+        void dof();
+    }
+    public class A {
+        public void m(int a1) {
+            final long[] l1 = {0};
+            I i = new I() {
+                public void dof() {
+                    int a1 = 5;
+                    l1[0] += a1; }
+            }; }
     }
 }
