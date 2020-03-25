@@ -1,4 +1,4 @@
-package com.example.leetcode;
+package com.example.leetcode.mytest;
 import java.util.*;
 public class Meituan
 {

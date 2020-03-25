@@ -53,4 +53,29 @@ public class MyPow {
 
         return current;
     }
+
+    /**
+     * 整数的快速幂，对10^9 + 7取余
+     * 这里保证base >= 0
+     *
+     * 算法题中通常会要求对 10^9+7 取模，来避免整数溢出的问题。其中10^9+7是一个比较大的质数。能够保证散列后的数
+     * 尽量随机均匀分布
+     */
+    public long fastPow(long base, long n) {
+        // 10^9 + 7
+        int M = 1000000007;
+        if(n == 0) {
+            return 1;
+        }
+
+        long ans = 1;
+        while (n != 0) {
+            if((n & 1) == 1) {
+                ans = (ans * (base % M)) % M;
+            }
+            base = (base * base) % M;
+            n = n >> 1;
+        }
+        return ans % M;
+    }
 }
