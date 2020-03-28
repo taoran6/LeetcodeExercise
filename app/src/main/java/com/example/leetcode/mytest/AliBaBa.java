@@ -1,5 +1,7 @@
 package com.example.leetcode.mytest;
 
+import android.animation.ValueAnimator;
+
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -84,7 +86,7 @@ public class AliBaBa {
         long[][] matrix = new long[3][n];
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < n; j++){
-                matrix[i][j] = sc.nextInt();
+                matrix[i][j] = sc.nextLong();
             }
         }
         System.out.println(minSum(matrix, n));
@@ -92,6 +94,7 @@ public class AliBaBa {
 
 
     public static long minSum(long[][] matrix, int n) {
+        //呜呜呜，没考虑好大数据，应该用long类型的
         long[] dp = new long[3];
         for (int i = 1; i < n; i ++) {
             long[] newDp = new long[3];

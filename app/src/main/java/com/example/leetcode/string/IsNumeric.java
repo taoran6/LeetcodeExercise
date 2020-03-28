@@ -55,6 +55,8 @@ public class IsNumeric {
      * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可
      * 以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和
      * "ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+     *
+     * 方法一：回溯
      */
     public boolean match(char[] str, char[] pattern)
     {
@@ -86,6 +88,42 @@ public class IsNumeric {
             return matchCore(str, strIndex + 1, patten, paIndex + 1);
         }
         return false;
+    }
+
+    /**
+     * 方法二：动态规划
+     */
+    public boolean isMatch(String text, String pattern) {
+        if(text == null || pattern == null) return false;
+        //dp[i][j]保存text的前i个字符和pattern的前j个字符是否匹配
+        boolean[][] dp = new boolean[text.length() + 1][pattern.length() + 1];
+        char[] textChar = text.toCharArray();
+        char[] patternChar = pattern.toCharArray();
+        //两个空字符串一定匹配
+        dp[0][0] = true;
+        //这里必须初始化第一行也就是dp[0][j];因为""和"c*"匹配
+        for(int j = 2; j <= patternChar.length; j++) {
+            dp[0][j] = patternChar[j-1] == '*' && dp[0][j-2];
+        }
+        for (int i = 0; i < text.length(); i++){
+            for (int j = 0; j < pattern.length(); j++) {
+                if(textChar[i] == patternChar[j] || patternChar[j] == '.') {
+                    //没有'*',直接匹配的情况
+                    dp[i + 1][j  + 1] = dp[i][j];
+                }else if(patternChar[j] == '*'){    //模式最后一个是'*'
+                    if(j >= 1 && patternChar[j - 1] == textChar[i] || patternChar[j - 1] == '.') {
+                        // '*'前面字母匹配
+                        dp[i + 1][j + 1] = dp[i + 1][j - 1] || dp[i + 1][j] || dp[i][j + 1];
+                        //分别对应a*不匹配，a*匹配一个，a*匹配多个
+                    } else if (j >= 1){
+                        // '*'前面字母不匹配
+                        dp[i + 1][j + 1] = dp[i + 1][j - 1];
+                    }
+                }
+            }
+        }
+
+        return dp[text.length()][pattern.length()];
     }
 
 }

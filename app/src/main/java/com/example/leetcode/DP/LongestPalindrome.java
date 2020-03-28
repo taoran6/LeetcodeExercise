@@ -1,5 +1,7 @@
 package com.example.leetcode.DP;
 
+import java.util.Arrays;
+
 /**
  * 最长回文子串
  */
@@ -61,12 +63,40 @@ public class LongestPalindrome {
     }
 
     /**
-     * TODO 方法二：反转字符串求最长公共子串
+     * 方法二：动态规划
      */
+    public String longestPalindrome2(String s) {
+        if(s == null || s.length() == 0) return "";
 
+        //dp[i][j]表示从i到j的字符串是不是回文串
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        //保存最大长度
+        int ans = 0;
+        //保存最大长度的左索引
+        int ansLeft = 0;
+        //保存最大长度的右索引
+        int ansRight = 0;
+        char[] sArray = s.toCharArray();
 
-    /**
-     * 方法三：马拉车算法
-     */
+        //right从0到length遍历
+        for(int r = 0; r < s.length(); r++) {
+            //这里left倒着遍历
+            for (int l = r; l >= 0; l --) {
+                if(r == l) dp[l][r] = true;
+                else if(r == l + 1 && sArray[l] == sArray[r]) dp[l][r] = true;
+                else if(sArray[l] == sArray[r] && dp[l + 1][r - 1]){
+                    dp[l][r] = true;
+                }
+                if(dp[l][r] && (r - l + 1) > ans ) {
+                    //更新最大长度
+                    ans = r - l + 1;
+                    ansLeft = l;
+                    ansRight = r;
+                }
+            }
+        }
 
+        return s.substring(ansLeft, ansRight  +1);
+
+    }
 }
