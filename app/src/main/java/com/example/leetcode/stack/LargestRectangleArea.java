@@ -1,12 +1,11 @@
 package com.example.leetcode.stack;
 
+import java.util.List;
 import java.util.Stack;
 
-/**
- * 柱状图中最大的矩形
- */
 public class LargestRectangleArea {
     /**
+     * 84. 柱状图中最大的矩形
      * 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
      *
      * 求在该柱状图中，能够勾勒出来的矩形的最大面积。
@@ -55,6 +54,9 @@ public class LargestRectangleArea {
      * 方法二：使用单调递增的栈,用于确定左右边界
      *
      * 单调递增的栈里存的肯定是左边界
+     *
+     * 时间复杂度O(n)
+     * 空间复杂是O(n)
      */
     public int largestRectangleArea2(int[] heights) {
         int res = 0;
@@ -83,5 +85,54 @@ public class LargestRectangleArea {
 
         return res;
     }
+
+
+
+    /**
+     * 85. 最大矩形
+     *
+     * 给定一个仅包含 0 和 1 的二维二进制矩阵，找出只包含 1 的最大矩形，并返回其面积。
+     *
+     * 示例:
+     *
+     * 输入:
+     * [
+     *   ["1","0","1","0","0"],
+     *   ["1","0","1","1","1"],
+     *   ["1","1","1","1","1"],
+     *   ["1","0","0","1","0"]
+     * ]
+     * 输出: 6
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/maximal-rectangle
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * 套用了84题的解法去解，就是求出每一层的 heights[] 然后传给上一题的函数就可以了,注意这题解法跟
+     * 221题求最大正方形面积 不同，虽然题目很相似
+     *
+     * 参考https://leetcode-cn.com/problems/maximal-rectangle/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-1-8/
+     * 的解法二
+     */
+    public int maximalRectangle(char[][] matrix) {
+        if(matrix.length == 0 || matrix[0].length == 0) return 0;
+
+        int[] heights = new int[matrix[0].length];
+        int ans = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            // 更新heights[]
+            for(int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] == '1') {
+                    heights[j] ++;
+                } else {
+                    heights[j] = 0;
+                }
+            }
+
+            ans = Math.max(largestRectangleArea2(heights), ans);
+        }
+        return ans;
+    }
+
 
 }
