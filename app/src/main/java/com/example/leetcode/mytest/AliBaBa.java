@@ -1,11 +1,15 @@
 package com.example.leetcode.mytest;
 
-import android.animation.ValueAnimator;
-
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class AliBaBa {
+    /**
+     * 一个n x m的矩阵，每列每行都是等差数列，公差为整数。
+     * 输入n x m个数，如果为0表示不知道，否则知道。
+     * q个查询，特定位置（下标1开始）的值是否可确定。
+     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -17,17 +21,71 @@ public class AliBaBa {
                 matrix[i][j] = sc.nextInt();
             }
         }
-        getMatrix(matrix, n, m);
+        getMatrix2(matrix);
         for (int i = 0; i < q; i++) {
             int x = sc.nextInt() - 1;
             int y = sc.nextInt() - 1;
-            if(matrix[x][y] == 0) {
+            if(matrix[x][y] != 0) {     //呜呜呜竟然把判断条件写反了（matrix[x][y] != 0），我怎么这么不小心
                 System.out.println(matrix[x][y]);
             }else {
                 System.out.println("Unknown");
             }
         }
 
+    }
+
+    public static int[][] getMatrix2(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        // 记录该行或列是否可以被全部推出
+        boolean[] row_OK = new boolean[n];
+        boolean[] col_OK = new boolean[m];
+        // 记录该行或列只有一个已知的该数的下标
+        int[] rowIndex = new int[n];
+        int[] colIndex = new int[m];
+        Arrays.fill(rowIndex, -1);
+        Arrays.fill(colIndex, -1);
+
+        for(int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if(matrix[i][j] != 0) {
+                    if(col_OK[j] && row_OK[i]) continue;    //直接返回节省时间
+
+                    if(!col_OK[j]) {    //该列还没有被推导出来
+                        if(colIndex[j] == -1) {
+                            colIndex[j] = i;    // 更新该列已知的第一个值
+                        } else {
+                            col_OK[j] = true;
+                            //获得等差的差值，更新该列
+                            int gap = (matrix[i][j] - matrix[colIndex[j]][j]) / (i - colIndex[j]);
+                            for (int r = i - 1; r >= 0; r--) {
+                                matrix[r][j] = matrix[r+1][j] - gap;
+                            }
+                            for (int r = i + 1; r < n; r++) {
+                                matrix[r][j] = matrix[r-1][j] + gap;
+                            }
+                        }
+                    }
+
+                    if(!row_OK[i]) {    //该行还没有被推导出来，思路和列的推导一样
+                        if(rowIndex[i] == -1) {
+                            rowIndex[i] = j;
+                        } else {
+                            row_OK[i] = true;
+                            int gap = (matrix[i][j] - matrix[i][rowIndex[i]]) / (j - rowIndex[i]);
+                            for (int r = j - 1; j >=0; j--) {
+                                matrix[i][r] = matrix[i][r+1] - gap;
+                            }
+                            for(int r = j + 1; j < m; j++) {
+                                matrix[i][r] = matrix[i][r-1] + gap;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return matrix;
     }
 
     public static int[][] getMatrix(int[][] matrix, int m, int n) {
@@ -93,8 +151,24 @@ public class AliBaBa {
     }
 
 
+    /**
+     * 作者：HailHYDRA!
+     * 链接：https://www.nowcoder.com/discuss/392312?type=all&order=time&pos=&page=1
+     * 来源：牛客网
+     *
+     * 给3xn的矩阵，每列选择其中的一个数, 形成最后的数组。
+     * 使得最后的
+     * sum(b[i+1] - b[i])
+     * 最小。
+     * 输出最小的这个值。
+     * @param matrix
+     * @param n
+     * @return
+     */
     public static long minSum(long[][] matrix, int n) {
         //呜呜呜，没考虑好大数据，应该用long类型的
+
+        //动态规划，dp[i]表示以当前第i行的这个数结尾的sum的最小值，这里做了空间优化
         long[] dp = new long[3];
         for (int i = 1; i < n; i ++) {
             long[] newDp = new long[3];
