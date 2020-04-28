@@ -1,15 +1,13 @@
 package com.example.leetcode;
 
-import com.example.leetcode.DP.ClimbStairs;
-import com.example.leetcode.DP.NumDecodings;
-import com.example.leetcode.array.FindKthLargest;
-import com.example.leetcode.bit.ReverseBits;
-import com.example.leetcode.graph.CalcEquation;
-import com.example.leetcode.sort.ArrayPairSum;
-import com.example.leetcode.stack.IsPopOrder;
+import android.util.LruCache;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.leetcode.DP.LongestSubString;
+import com.example.leetcode.design.LRUCache;
+import com.example.leetcode.design.LRUCache3;
+import com.example.leetcode.tree.TreeNode;
+
+import java.util.Stack;
 
 /**
  * 测试用
@@ -17,19 +15,68 @@ import java.util.List;
 public class MainTest {
     public static void main(String[] args) {
         //这里写测试用例
-        List<List<String>> equ = new ArrayList<>();
-        equ.add(new ArrayList<String>(){{add("a"); add("b");}});
-        equ.add(new ArrayList<String>(){{add("b"); add("c");}});
-        equ.add(new ArrayList<String>(){{add("e"); add("x");}});
-
-
-        List<List<String>> quer = new ArrayList<>();
-        quer.add(new ArrayList<String>(){{add("a"); add("c");}});
-        quer.add(new ArrayList<String>(){{add("a"); add("e");}});
-        quer.add(new ArrayList<String>(){{add("x"); add("x");}});
-
-
-        boolean out = new IsPopOrder().IsPopOrder(new int[]{1,2,3,4,5}, new int[] {4,3,5,1,2});
-        System.out.println(out);
+        testCase1();
+        testCase2();
     }
+
+    private static void testCase1() {
+        boolean flag = true;
+        LRUCache3<Integer, Integer> cache = new LRUCache3<>(2);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        flag = (cache.get(1) == 1) && flag;         // 返回  1
+        cache.put(3, 3);                            // 该操作会使得密钥 2 作废
+        flag = (cache.get(2) == null) && flag;      // 返回 null (未找到)
+        cache.put(4, 4);                            // 该操作会使得密钥 1 作废
+        flag = (cache.get(1) == null) && flag;      // 返回 null (未找到)
+        flag = (cache.get(3) == 3) && flag;         // 返回  3
+        flag = (cache.get(4) == 4) && flag;         // 返回  4
+        assert (flag);
+    }
+
+    private static void testCase2() {
+        boolean flag = false;
+        try {
+            // 对容量是负数的测试
+            LRUCache3<Integer, Integer> cache = new LRUCache3<>(-1);
+        } catch (Exception e) {
+            if(e instanceof IllegalArgumentException) {
+                flag = true;
+            }
+        } finally {
+            assert (flag);
+        }
+    }
+
+    private static void testCase3() {
+        boolean flag = false;
+        try {
+            LRUCache3<Integer, Integer> cache = new LRUCache3<>(3);
+            cache.put(1, null);
+            cache.put(null, 1);
+        } catch (Exception e) {
+            if(e instanceof RuntimeException) {
+                flag = true;
+            }
+        } finally {
+            assert (flag);
+        }
+    }
+
+    private static void testCase4() {
+        boolean flag = false;
+        try {
+            LRUCache3<Integer, Integer> cache = new LRUCache3<>(3);
+            cache.put(1, 1);
+            cache.get(null);
+        } catch (Exception e) {
+            if(e instanceof RuntimeException) {
+                flag = true;
+            }
+        } finally {
+            assert (flag);
+        }
+    }
+
+
 }

@@ -86,7 +86,7 @@ public class MaxProfit {
         int ans = 0;
         for (int i = 1; i < prices.length; i++) {
             int sub = prices[i] - prices[i - 1];
-            //相当于每天都可以操作，只要能获利就前一天买入第二题卖出
+            //相当于每天都可以操作，只要能获利就前一天买入第二天卖出
             if(sub > 0) ans += sub;
         }
         return ans;
