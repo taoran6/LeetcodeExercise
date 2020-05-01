@@ -5,6 +5,8 @@ package com.example.leetcode.DP;
  */
 public class LengthOfLIS {
     /**
+     * 300. 最长上升子序列
+     *
      * 给定一个无序的整数数组，找到其中最长上升子序列的长度。
      *
      * 示例:
@@ -134,13 +136,17 @@ public class LengthOfLIS {
      */
     public int longestPalindromeSubseq(String s) {
         if(s== null || s.length() == 0) return 0;
+
+        //dp[i][j]表示从i到j的子串的最长回文子序列长度是多少
         int[][] dp = new int[s.length()][s.length()];
         for (int j = 0; j < s.length(); j++) {
+            //这里倒序
             for (int i = j; i >= 0; i--) {
                 if(i == j) dp[i][j] = 1;
 
                 else {
                     if(s.charAt(i) == s.charAt(j)) {
+                        //这里包括了i = j-1的情况，此时dp[i+1][j-1]为默认值0
                         dp[i][j] = dp[i+1][j-1] + 2;
                     }else {
                         dp[i][j] = Math.max(dp[i+1][j], dp[i][j-1]);

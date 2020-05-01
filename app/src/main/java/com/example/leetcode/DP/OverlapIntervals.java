@@ -131,45 +131,20 @@ public class OverlapIntervals {
      *
      * 即需要求解同一时刻最多有几个会议在同时召开
      *
-     * 方法一：对end排序
-     */
-    private int meetingRooms(int[][] intervals) {
-        if(intervals == null || intervals.length == 0) return 0;
-
-        Arrays.sort(intervals, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[1] - o2[1];
-            }
-        });
-
-        //记录同时召开的最大会议数
-        int maxMeetings = 1;
-        //记录当前同时召开的会议数
-        int currentCount = 1;
-
-        int firstEndIndex = 0;
-        for (int i = 1; i < intervals.length; i++) {
-            currentCount ++;
-            //这里看似两重嵌套但是实际上总共只有两次对数组的遍历
-            while (firstEndIndex < i && intervals[i][0] >= intervals[firstEndIndex][1]) {
-                firstEndIndex ++;
-                currentCount --;
-            }
-            maxMeetings = Math.max(maxMeetings, currentCount);
-        }
-
-        return maxMeetings;
-    }
-
-    /**
-     * 方法二：对start和end都排序
+     * 方法一：对start和end都排序
      *
      * 很好理解，有新的会议开始就要多增加一个会议室，有会议结束了就减少一个会议室，不用担心整个会议持续时长
      */
     private int meetingRooms2(int[][] intervals) {
+        if(intervals == null || intervals.length == 0) return 0;
+
         int[] start = new int[intervals.length];
         int[] end = new int[intervals.length];
+
+        for(int i = 0; i < intervals.length; i++) {
+            start[i] = intervals[i][0];
+            end[i] = intervals[i][1];
+        }
 
         Arrays.sort(start);
         Arrays.sort(end);

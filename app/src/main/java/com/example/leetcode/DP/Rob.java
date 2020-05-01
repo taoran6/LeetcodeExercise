@@ -163,7 +163,9 @@ public class Rob {
         if(root == null) return ret;
         int[] left = robIIIHelp2(root.left);
         int[] right = robIIIHelp2(root.right);
+        // 不抢，下家可抢可不抢，取决于收益大小
         ret[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        // 抢，下家就不能抢了
         ret[1] = left[0] + right[0] + root.val ;
         return ret;
     }
