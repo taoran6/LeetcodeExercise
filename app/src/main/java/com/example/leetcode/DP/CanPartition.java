@@ -70,6 +70,39 @@ public class CanPartition {
         return false;
     }
 
+    public boolean canPartition3(int[] nums) {
+        if(nums == null || nums.length == 0) return false;
+
+        int sum = 0;
+        for(int num : nums) {
+            sum += num;
+        }
+        // 和为奇数时，不可能划分成两个和相等的集合
+        if(sum % 2 != 0) return false;
+
+        sum = sum / 2;
+        // dp[i][j]表示前i个数字中是否可以取出几个数使得和恰好为j
+        boolean[][] dp = new boolean[nums.length + 1][sum + 1];
+
+        //初始化和为0肯定是true
+        for(int i = 0; i <= nums.length; i++) {
+            dp[i][0] = true;    //注意这里dp[0][0]是true
+        }
+
+        for (int i = 1; i <= nums.length; i++) {
+            for(int j = 1; j <= sum; j++) {
+                if(j - nums[i-1] < 0) {
+                    // 背包容量不足，不能装入第 i 个物品
+                    dp[i][j] = dp[i-1][j];
+                } else {
+                    // 装入或不装入背包
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j - nums[i-1]];
+                }
+            }
+        }
+        return dp[nums.length][sum];
+    }
+
     /**
      * 方法二：动态规划，二维转一维，更新时需要从后往前遍历
      * 速度有大幅度提升
@@ -99,6 +132,34 @@ public class CanPartition {
         }
 
         return dp[half];
+    }
+
+    public boolean canPartition4(int[] nums) {
+        if(nums == null || nums.length == 0) return false;
+
+        int sum = 0;
+        for(int num : nums) {
+            sum += num;
+        }
+        // 和为奇数时，不可能划分成两个和相等的集合
+        if(sum % 2 != 0) return false;
+
+        sum = sum / 2;
+        // dp[i]表示是否可以取出几个数使得和恰好为i
+        boolean[] dp = new boolean[sum + 1];
+
+        //初始化和为0肯定是true
+        dp[0] = true;
+
+        for (int i = 1; i <= nums.length; i++) {
+            // 这里逆序
+            for(int j = sum; j >= 1; j--) {
+                if(j - nums[i-1] >= 0) {
+                    dp[j] = dp[j] || dp[j - nums[i-1]];
+                }
+            }
+        }
+        return dp[sum];
     }
 
 

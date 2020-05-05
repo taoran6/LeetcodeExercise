@@ -132,4 +132,58 @@ public class CoinChange {
 
         return dp[amount];
     }
+
+    /**
+     * 标准二维dp
+     * @param amount
+     * @param coins
+     * @return
+     */
+    public int change2(int amount, int[] coins) {
+        if(amount == 0) return 1;
+        if(coins == null || coins.length == 0) return 0;
+
+        //dp[i][j]表示在前i种硬币中凑出j金额有几种凑法
+        int[][] dp = new int[coins.length + 1][amount + 1];
+        //初始化，如果凑出的目标金额为 0，那么“无为而治”就是唯一的一种凑法。
+        for (int i = 0; i <= coins.length; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= coins.length; i++) {
+            for (int j = 1; j <= amount; j++) {
+                if(j - coins[i-1] < 0) {
+                    dp[i][j] = dp[i-1][j];
+                } else {
+                    //这里是加号，用到了j层的结果
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i - 1]];
+                }
+            }
+        }
+
+        return dp[coins.length][amount];
+    }
+
+    /**
+     * 化简为一维dp
+     */
+    public int change3(int amount, int[] coins) {
+        if(amount == 0) return 1;
+        if(coins == null || coins.length == 0) return 0;
+
+        //dp[j]表示在凑出j金额有几种凑法
+        int[] dp = new int[amount + 1];
+        //初始化，如果凑出的目标金额为 0，那么“无为而治”就是唯一的一种凑法。
+        dp[0] = 1;
+
+        for (int i = 1; i <= coins.length; i++) {
+            for (int j = 1; j <= amount; j++) {
+                if(j - coins[i-1] >= 0) {
+                    dp[j] = dp[j] + dp[j - coins[i-1]];
+                }
+            }
+        }
+
+        return dp[amount];
+    }
 }

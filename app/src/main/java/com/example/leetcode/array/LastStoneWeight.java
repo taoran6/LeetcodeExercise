@@ -107,6 +107,7 @@ public class LastStoneWeight {
             sum += stone;
         }
 
+        // 转化为背包问题，这里容量是 sum / 2
         int W = sum / 2;
         // dp[i][j]表示在前i个石头中，最多能在j容量的背包中装下石头的最大价值
         int[][] dp = new int[stones.length + 1][W + 1];
@@ -116,6 +117,7 @@ public class LastStoneWeight {
                 if(j - stones[i - 1] < 0) {
                     dp[i][j] = dp[i-1][j];
                 } else {
+                    // 这里价值就是石头的重量
                     dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-stones[i - 1]] + stones[i - 1]);
                 }
             }
@@ -123,6 +125,33 @@ public class LastStoneWeight {
 
         // 得到两堆的差值
         return sum - dp[stones.length][W] - dp[stones.length][W];
+    }
+
+    /**
+     * 0-1背包问题经典题
+     *
+     * 有一个容量为 N 的背包，要用这个背包装下物品的价值最大，这些物品有两个属性：体积 w 和价值v。在背包容积范
+     * 围内往背包里放物品，使得背包中物品的价值最大
+     */
+    public int knapsack(int W, int[] weights, int[] values) {
+        int N = weights.length;
+        // dp[i][j]表示在前i个物品中，物品容量和不超过j的物品的最大价值
+        int[][] dp = new int[N + 1][W + 1];
+
+        for (int i = 1; i <= N; i++) {
+            for(int j = 1; j <= W; j++) {
+                if(j - values[i-1] < 0) {
+                    // 当前背包容量装不下，只能选择不装入背包
+                    dp[i][j] = dp[i-1][j];
+                }
+                else {
+                    // 装入或者不装入背包，择优
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-values[i-1]] + values[i-1]);
+                }
+            }
+        }
+
+        return dp[N][W];
     }
 
 }
