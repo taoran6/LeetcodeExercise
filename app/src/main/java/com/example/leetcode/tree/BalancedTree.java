@@ -157,4 +157,21 @@ public class BalancedTree {
         return true;
     }
 
+    /**
+     * 递归解法要是不想使用long，可以传对象
+     * @param root
+     * @return
+     */
+    public boolean isValidBST3(TreeNode root) {
+        return isValidHelp(root, null, null);
+    }
+
+    private boolean isValidHelp(TreeNode root, TreeNode max, TreeNode min) {
+        if(root == null) return true;
+
+        if(max != null && root.val >= max.val) return false;
+        if(min != null && root.val <= min.val) return false;
+
+        return isValidHelp(root.left, root, min) && isValidHelp(root.right, max, root);
+    }
 }

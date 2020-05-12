@@ -3,8 +3,13 @@ package com.example.leetcode;
 import android.util.LruCache;
 
 import com.example.leetcode.DP.LongestSubString;
+import com.example.leetcode.DP.MincostTickets;
 import com.example.leetcode.design.LRUCache;
 import com.example.leetcode.design.LRUCache3;
+import com.example.leetcode.string.BoldWords;
+import com.example.leetcode.tree.BuildTree;
+import com.example.leetcode.tree.ConvertBST;
+import com.example.leetcode.tree.CreateNode;
 import com.example.leetcode.tree.TreeNode;
 
 import java.util.Stack;
@@ -15,8 +20,8 @@ import java.util.Stack;
 public class MainTest {
     public static void main(String[] args) {
         //这里写测试用例
-        testCase1();
-        testCase2();
+        TreeNode root = new CreateNode().createNode(new Integer[]{5,3,6,2,4,null,7});
+        new ConvertBST().deleteNode(root, 3);
     }
 
     private static void testCase1() {

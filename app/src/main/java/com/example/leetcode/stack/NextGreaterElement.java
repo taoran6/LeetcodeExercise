@@ -1,5 +1,6 @@
 package com.example.leetcode.stack;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -92,25 +93,44 @@ public class NextGreaterElement {
         return ans;
     }
 
+    /**
+     * 503 下一个更大元素II
+     *
+     * 给定一个循环数组（最后一个元素的下一个元素是数组的第一个元素），输出每个元素的下一个更大元素。数字 x 的下
+     * 一个更大的元素是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的
+     * 数。如果不存在，则输出 -1。
+     *
+     * 示例 1:
+     *
+     * 输入: [1,2,1]
+     * 输出: [2,-1,2]
+     * 解释: 第一个 1 的下一个更大的数是 2；
+     * 数字 2 找不到下一个更大的数；
+     * 第二个 1 的下一个最大的数需要循环搜索，结果也是 2。
+     * 注意: 输入数组的长度不会超过 10000。
+     *
+     *
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/next-greater-element-ii
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     */
+    public int[] nextGreaterElementsII3(int[] nums) {
+        Stack<Integer> stack = new Stack<>();
+        // 存放结果
+        int[] ans = new int[nums.length];
 
-        /**
-         * 给定一个循环数组（最后一个元素的下一个元素是数组的第一个元素），输出每个元素的下一个更大元素。数字 x 的下
-         * 一个更大的元素是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的
-         * 数。如果不存在，则输出 -1。
-         *
-         * 示例 1:
-         *
-         * 输入: [1,2,1]
-         * 输出: [2,-1,2]
-         * 解释: 第一个 1 的下一个更大的数是 2；
-         * 数字 2 找不到下一个更大的数；
-         * 第二个 1 的下一个最大的数需要循环搜索，结果也是 2。
-         * 注意: 输入数组的长度不会超过 10000。
-         *
-         * 来源：力扣（LeetCode）
-         * 链接：https://leetcode-cn.com/problems/next-greater-element-ii
-         * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-         */
+        // 假装这个数组⻓度翻倍了
+        for (int i = nums.length * 2 - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= nums[i % nums.length]) {
+                stack.pop();
+            }
+            ans[i % nums.length] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(nums[i % nums.length]);
+        }
+        return ans;
+    }
+
     public int[] nextGreaterElementsII(int[] nums) {
         int[] ans = new int[nums.length];
 
@@ -160,4 +180,83 @@ public class NextGreaterElement {
         }
         return ans;
     }
+
+    /**
+     * 556. 下一个更大元素 III
+     *
+     * 给定一个32位正整数 n，你需要找到最小的32位整数，其与 n 中存在的位数完全相同，并且其值大于n。如果不存在这
+     * 样的32位整数，则返回-1。
+     *
+     * 示例 1:
+     *
+     * 输入: 12
+     * 输出: 21
+     * 示例 2:
+     *
+     * 输入: 21
+     * 输出: -1
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/next-greater-element-iii
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * 时间复杂度O(nlogn)
+     */
+    public int nextGreaterElementIII(int n) {
+
+        char[] numChars = (n + "").toCharArray();
+
+        // 从后往前遍历
+        for (int i = numChars.length - 2; i >= 0; i--) {
+            //找到逆序对
+            if(numChars[i] < numChars[i+1]) {
+                //找到最后一个比它大的字符
+                int swapIndex = i + 1;
+                while (swapIndex + 1 < numChars.length && numChars[swapIndex + 1] > numChars[i]) {
+                    swapIndex ++;
+                }
+
+                //交换两索引的数字字符
+                char tmp = numChars[i];
+                numChars[i] = numChars[swapIndex];
+                numChars[swapIndex] = tmp;
+
+                //后面的进行排序
+                //Arrays.sort(numChars, i+1, numChars.length);\
+                /**实际上这里的排序就是逆序*/
+                reverse(numChars, i+1, numChars.length - 1);
+
+                //返回交换后的数字，这里char[]转String使用了String.valueOf(..)
+                long ret = Long.valueOf(String.valueOf(numChars));
+                //使用long 是为了防止溢出 如1999999999 -> 9199999999实际上已经溢出了
+                return ret > Integer.MAX_VALUE ? -1 : (int) ret;
+                /** 也可以使用try-catch的形式，防止溢出
+                try {
+                    return Integer.valueOf(String.valueOf(numChars));
+                } catch (Exception e) {
+                    return -1;
+                }
+                 */
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 对chars从i到j闭区间翻转
+     * @param chars
+     * @param i
+     * @param j
+     */
+    private void reverse(char[] chars, int i, int j) {
+        while (i < j) {
+            char tmp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = tmp;
+            i++;
+            j--;
+        }
+    }
+
+
 }
