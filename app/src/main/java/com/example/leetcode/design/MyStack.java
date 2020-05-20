@@ -27,25 +27,26 @@ public class MyStack {
      * 方法一：使用另一个队列辅助
      * push的时间复杂度O(1),pop的时间复杂度O(n)
      *
-     * 另一种方法是push的时间复杂度O(n),pop的时间复杂度O(1),也是用一个队列辅助，思路都是差不多的
      *
-     * 方法三: 参见{@link MyStack2}
+     * 方法二: 参见{@link MyStack2}
+     * push的时间复杂度O(n),pop的时间复杂度O(1)
+     *
+     * 其实，用队列实现栈是没啥亮点的问题，总有一个操作是O(n)
      */
 
     private Queue<Integer> queue;
-    private Queue<Integer> queueHelp;
     private int top;
 
 
     /** Initialize your data structure here. */
     public MyStack() {
         queue = new LinkedList<>();
-        queueHelp = new LinkedList<>();
     }
 
     /** Push element x onto stack. */
     public void push(int x) {
         queue.offer(x);
+        //记录一下栈顶，使得peek可以达到O(n)
         top = x;
     }
 
@@ -53,20 +54,23 @@ public class MyStack {
     public int pop() {
         if(queue.isEmpty()) return 0;
 
-        for (int i = 0; i < queue.size() - 2; i++) {
-            queueHelp.offer(queue.poll());
+        int size = queue.size();
+
+        //将队头的元素重新加到队尾
+        while (size > 2) {
+            queue.offer(queue.poll());
+            size --;
         }
-        if(queue.size() > 1) {
-            top = queue.poll();
-            queueHelp.offer(top);
-        } else {
+        //给top赋新值,这里判断一下队列是不是只剩下一个值了
+        if(queue.size() == 1) {
             top = 0;
+        } else {
+            top = queue.poll();
+            queue.offer(top);
         }
-        //交换queue和queueHelp，避免拷贝
-        Queue<Integer> tmp = queue;
-        queue = queueHelp;
-        queueHelp = tmp;
-        return queueHelp.poll();
+
+        //弹出需要的元素
+        return queue.poll();
     }
 
     /** Get the top element. */

@@ -43,6 +43,8 @@ public class MyQueue {
      * 链接：https://leetcode-cn.com/problems/implement-queue-using-stacks/solution/yong-zhan-shi-xian-dui-lie-by-leetcode/
      * 来源：力扣（LeetCode）
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     *
+     * 注意：这里peek()的时间复杂度其实是O(1)，因为一个元素至多被搬运2次
      */
 
     private Stack<Integer> stack;

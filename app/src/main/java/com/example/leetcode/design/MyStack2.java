@@ -4,7 +4,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * 用队列实现栈 方法三
+ * 用队列实现栈 方法二
+ *
+ * push的时间复杂度O(n)
+ *
+ * 其实，用队列实现栈是没啥亮点的问题，总有一个操作是O(n)
  */
 public class MyStack2 {
     /**

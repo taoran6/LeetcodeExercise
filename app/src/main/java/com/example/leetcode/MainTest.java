@@ -6,12 +6,14 @@ import com.example.leetcode.DP.LongestSubString;
 import com.example.leetcode.DP.MincostTickets;
 import com.example.leetcode.design.LRUCache;
 import com.example.leetcode.design.LRUCache3;
+import com.example.leetcode.design.Twitter;
 import com.example.leetcode.string.BoldWords;
 import com.example.leetcode.tree.BuildTree;
 import com.example.leetcode.tree.ConvertBST;
 import com.example.leetcode.tree.CreateNode;
 import com.example.leetcode.tree.TreeNode;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -20,8 +22,13 @@ import java.util.Stack;
 public class MainTest {
     public static void main(String[] args) {
         //这里写测试用例
-        TreeNode root = new CreateNode().createNode(new Integer[]{5,3,6,2,4,null,7});
-        new ConvertBST().deleteNode(root, 3);
+        Twitter twitter = new Twitter();
+        twitter.postTweet(1,4);
+        twitter.postTweet(2,5);
+        twitter.unfollow(1,2);
+        twitter.follow(1,2);
+        List<Integer> list = twitter.getNewsFeed(1);
+        System.out.println(list);
     }
 
     private static void testCase1() {

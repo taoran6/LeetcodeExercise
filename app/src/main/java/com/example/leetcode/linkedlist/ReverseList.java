@@ -72,6 +72,8 @@ public class ReverseList {
         }
     }
 
+
+
     /**
      * 92. 反转链表 II
      *
@@ -150,6 +152,21 @@ public class ReverseList {
         // 前进到反转的起点触发 base case
         head.next = reverseBetween2(head.next, m - 1, n - 1);
         return head;
+    }
+
+    /**
+     * 反转前N个节点,不需要全局变量
+     */
+    private ListNode reverseN2(ListNode head, int n) {
+        if(n == 1) {
+            return head;
+        }
+
+        ListNode last = reverseN2(head.next, n-1);
+        ListNode successor = head.next.next;
+        head.next.next = head;
+        head.next = successor;
+        return last;
     }
 
 
