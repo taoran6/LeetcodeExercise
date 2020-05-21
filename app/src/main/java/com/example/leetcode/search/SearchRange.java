@@ -152,26 +152,64 @@ public class SearchRange {
     }
 
     private int leftBound(int[] array, int k) {
+        if(array.length == 0) return -1;
+
+
         int start = 0;
         int end = array.length - 1;
         while(start < end) {
             int mid = start + (end - start)/2;
-            if(array[mid] != k && array[mid + 1] == k) return mid+1;
-            else if(array[mid] < k) start = mid+1;
-            else end = mid;
+            if(array[mid] != k && array[mid + 1] == k) {
+                return mid + 1;   //注意这里是+1
+            }
+            else if(array[mid] < k) {
+                start = mid + 1;    //小于的情况直接缩小区间
+            }
+            else {
+                end = mid;      //其他情况,其实也是间接缩小了区间
+            }
         }
+        //这里包括  start == end == array.length - 1  的情况
         return array[start] == k ? start : -1;
     }
 
     private int rightBound(int[] array, int k) {
+        if(array.length == 0) return -1;
+
         int start = 0;
         int end = array.length - 1;
         while(start < end) {
             int mid = start + (end - start) /2;
-            if(array[mid] == k && array[mid + 1] != k) return mid;
-            else if(array[mid] <= k) start = mid + 1;
-            else end = mid;
+            if(array[mid] == k && array[mid + 1] != k) {
+                return mid; //注意这里是mid
+            }
+            else if(array[mid] <= k) {  //注意这里是<=
+                start = mid + 1;
+            }
+            else {
+                end = mid;  //其他情况,其实也是间接缩小了区间
+            }
         }
         return array[start] == k ? start : -1;
+    }
+
+    //查找，找到了返回下标，找不到返回-1
+    public int binarySearch(int[] nums, int target) {
+        // 都是闭区间
+        int start = 0;
+        int end = nums.length - 1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if(nums[mid] == target) {
+                return mid;
+            } else if(nums[mid] > target) {
+                end = mid - 1;
+            } else if(nums[mid] < target) {
+                start = mid + 1;
+            }
+        }
+        //没有找到
+        return -1;
     }
 }
