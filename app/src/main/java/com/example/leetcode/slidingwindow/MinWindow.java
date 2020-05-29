@@ -1,4 +1,4 @@
-package com.example.leetcode.hash;
+package com.example.leetcode.slidingwindow;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,5 +68,60 @@ public class MinWindow {
         }
 
         return minLength == Integer.MAX_VALUE ? "" : s.substring(start, start + minLength);
+    }
+
+    public String minWindow2(String s, String t) {
+        if(t == null || s == null || t == "" || s == "") return "";
+        int left = 0;
+        int right = 0;
+        String ans = "";
+        int length = Integer.MAX_VALUE;
+
+        // 存储t字符串的统计
+        Map<Character, Integer> strMap = new HashMap();
+        // 存储滑动窗口内的字符统计
+        Map<Character, Integer> winMap = new HashMap();
+
+        for(char c : t.toCharArray()) {
+            strMap.put(c, strMap.getOrDefault(c, 0) + 1);
+        }
+
+        int match = 0;//记录有多少种字符已成功匹配
+
+        while(right < s.length()) {
+            /**rirht 右移*/
+            if(match < strMap.size()) {
+                char c = s.charAt(right);
+                if(strMap.containsKey(c)) {
+                    winMap.put(c, winMap.getOrDefault(c, 0) + 1);
+
+                    //这里一定要用equals，不能用 == ，Integer会缓存频繁使用的数值，
+                    //数值范围为-128到127，在此范围内直接返回缓存值。
+                    //超过该范围就会new 一个对象。所以测试用例较大时不通过
+                    //浪费了我一个小时时间啊啊啊啊
+                    //阿里巴巴开发手册说过了，Integer要比较的话必须用.equals方法，这个IDEA也是有提示的。
+                    if(winMap.get(c).equals(strMap.get(c))) match ++;   //匹配数加1
+                }
+                right ++;
+            }
+
+            /**left 左移*/
+            while(match == strMap.size()) {
+                if(right - left < length) {
+                    length = right - left;
+                    ans = s.substring(left, right);
+                }
+
+                char c2 = s.charAt(left);
+                if(strMap.containsKey(c2)) {
+                    winMap.put(c2, winMap.get(c2) - 1);
+                    if(winMap.get(c2) == (strMap.get(c2) - 1)) match --;    //匹配数减1
+                }
+                left ++;
+            }
+
+        }
+
+        return ans;
     }
 }

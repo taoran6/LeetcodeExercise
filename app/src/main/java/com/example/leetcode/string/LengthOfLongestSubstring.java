@@ -91,6 +91,35 @@ public class LengthOfLongestSubstring {
         return result;
     }
 
+    public int lengthOfLongestSubstring5(String s) {
+        if(s == null || s.length() == 0) return 0;
+
+        int ans = 0;
+        int left = 0; int right = 0;
+        Set<Character> set = new HashSet<>();
+
+        while(right < s.length()) {
+            char c = s.charAt(right);
+            boolean success = set.add(c);
+            right ++;
+
+
+            while(!success) {
+                char c2 = s.charAt(left);
+
+                if(c2 == c) {
+                    //这里由于right已经++了，所以只需更新标志位，不需要remove
+                    success = true;
+                } else {
+                    set.remove(c2);
+                }
+                left ++;
+            }
+            ans = Math.max(ans, right - left);
+        }
+        return ans;
+    }
+
     /**
      * 方法三：优化的滑动窗口
      */

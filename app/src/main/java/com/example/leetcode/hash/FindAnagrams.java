@@ -142,6 +142,7 @@ public class FindAnagrams {
                 curAToZ[sChar[i-pChar.length] - 'a']--;
             }
             curAToZ[sChar[i] - 'a']++;
+            //核心，将两个数组比较，这里直接用了API，所以比较方便
             if (Arrays.equals(curAToZ, aToZ)) {
                 result.add(i - pChar.length + 1);
             }
