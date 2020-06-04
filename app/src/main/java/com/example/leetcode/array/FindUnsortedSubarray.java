@@ -78,7 +78,7 @@ public class FindUnsortedSubarray {
      * 基于这些想法，可以使用了一个哈希表 map，它用于存储所有可能的索引的累积总和以及相同累加和发生的次数。我
      * 们以下形式存储数据：（sum，sum出现的次数）。我们遍历数组 nums 并继续寻找累积总和。每当我们遇到一个新的和
      * 时，我们在hashmap中创建一个与该总和相对应的新条目。如果再次出现相同的和，我们增加与map中的和相对应的计数。
-     * 此外，对于遇到的每个总和，我们还确定已经发生 sum-k 总和的次数，因为它将确定具有总和 kk 的子阵列发生到当前
+     * 此外，对于遇到的每个总和，我们还确定已经发生 sum-k 总和的次数，因为它将确定具有总和 k 的子阵列发生到当前
      * 索引的次数。我们将count 增加相同的量。
      *
      * 在完成便利数组后，countcount 记录了所需结果
@@ -102,5 +102,27 @@ public class FindUnsortedSubarray {
             map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return ans;
+    }
+
+    public int subarraySum2(int[] nums, int k) {
+        if(nums == null || nums.length == 0) return 0;
+
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0,1); //这里需要初始化
+
+        int ans = 0;
+        int currentSum = 0;
+        for(int i = 0; i < nums.length; i++) {
+            currentSum += nums[i];
+
+            if(map.containsKey(currentSum - k)) {
+                ans += map.get(currentSum - k);
+            }
+
+            map.put(currentSum, map.getOrDefault(currentSum, 0) + 1);
+        }
+
+        return ans;
+
     }
 }
