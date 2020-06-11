@@ -58,6 +58,9 @@ public class PathSum {
      * 来源：力扣（LeetCode）
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
      *
+     * 方法一：递归，时间复杂度O(n*h),h是树的高度，可以理解为O(n^2)
+     * 如果是斜的二叉树，那么时间复杂度就是O(n^2), 如果是高度平衡的二叉树，时间复杂度是0(nlog(n))
+     *
      * @param root
      * @param sum
      * @return
@@ -67,6 +70,12 @@ public class PathSum {
         return rootPathSum(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
     }
 
+    /**
+     * 计算包含根节点的和为sum的路径有多少个
+     * @param root
+     * @param sum
+     * @return
+     */
     private int rootPathSum(TreeNode root, int sum) {
         if (root == null) return 0;
         int ans = 0;
@@ -92,6 +101,8 @@ public class PathSum {
      * 来源：力扣（LeetCode）
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
      *
+     * 时间复杂度: 仍然是O(n^2)
+     *
      * @param root
      * @param sum
      * @return
@@ -106,6 +117,7 @@ public class PathSum {
         if (root == null) return;
         list.add(root.val);
         int add = 0;
+        //向上，寻找包含本节点的路径和是否有和为sum的
         for (int i = list.size() - 1; i >= 0; i--) {
             add += list.get(i);
             if (add == sum) ans++;
@@ -128,7 +140,9 @@ public class PathSum {
      * 链接：https://leetcode-cn.com/problems/path-sum-iii/solution/liang-chong-fang-fa-jian-dan-yi-dong-ban-ben-by-a3/
      * 来源：力扣（LeetCode）
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-     * TODO 其实还是没看懂,感觉题解没说清楚？前n项和？
+     *
+     * 使用一个HashMap保存当前的各个路径和，相当于代替方法二的list的作用
+     *
      *
      * @param root
      * @param sum
@@ -136,6 +150,7 @@ public class PathSum {
      */
     public int pathSum(TreeNode root, int sum) {
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        //这里记得初始化
         map.put(0, 1);
         return helper(root, map, sum, 0);
     }
@@ -146,9 +161,11 @@ public class PathSum {
         if (root == null) return 0;
 
         pathSum += root.val;
+        //找pathSum - sum的路径和是否存在
         res += map.getOrDefault(pathSum - sum, 0);
         map.put(pathSum, map.getOrDefault(pathSum, 0) + 1);
         res = helper(root.left, map, sum, pathSum) + helper(root.right, map, sum, pathSum) + res;
+        //回溯
         map.put(pathSum, map.get(pathSum) - 1);
         return res;
     }
