@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
- * 数据流中的中位数
+ * 295. 数据流中的中位数
  */
 public class GetMedian {
     /**

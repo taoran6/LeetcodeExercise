@@ -23,7 +23,7 @@ public class Consumer<T> {
     public T take() throws InterruptedException {
         lock.lock();
         try {
-            if(queue.isEmpty()) {
+            while (queue.isEmpty()) {
                 empty.await();
             }
             T item = queue.poll();
@@ -37,7 +37,7 @@ public class Consumer<T> {
     public void put(T t) throws InterruptedException{
         lock.lock();
         try {
-            if(queue.size() == size) {
+            while (queue.size() == size) {
                 full.await();
             }
             queue.offer(t);
