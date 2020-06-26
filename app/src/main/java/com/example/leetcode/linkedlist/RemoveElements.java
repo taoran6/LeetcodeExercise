@@ -71,6 +71,8 @@ public class RemoveElements {
     }
 
     /**
+     * 83. 删除排序链表中的重复元素
+     *
      * 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
      *
      * 示例 1:
@@ -128,6 +130,29 @@ public class RemoveElements {
         return head.next;
     }
 
+    public ListNode deleteDuplicates2(ListNode head) {
+        if(head == null) return null;
+
+        //快慢指针
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while(fast != null) {
+            if(fast.val != slow.val) {
+                slow.next = fast;
+                // slow++;
+                slow = slow.next;
+            }
+            // fast++
+            fast = fast.next;
+        }
+
+        //注意， 断开与后面重复元素的连接
+        slow.next = null;
+
+        return head;
+    }
+
     /**
      * 删除链表的倒数第N个节点
      *
@@ -167,5 +192,61 @@ public class RemoveElements {
         if(pre == null) return head.next;
         pre.next = nNode.next;
         return head;
+    }
+
+    /**
+     * 面试题 02.01. 移除重复节点
+     *
+     * 编写代码，移除未排序链表中的重复节点。保留最开始出现的节点。
+     *
+     * 示例1:
+     *
+     *  输入：[1, 2, 3, 3, 2, 1]
+     *  输出：[1, 2, 3]
+     * 示例2:
+     *
+     *  输入：[1, 1, 1, 1, 2]
+     *  输出：[1, 2]
+     * 提示：
+     *
+     * 链表长度在[0, 20000]范围内。
+     * 链表元素在[0, 20000]范围内。
+     * 进阶：
+     *
+     * 如果不得使用临时缓冲区，该怎么解决？
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/remove-duplicate-node-lcci
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * 方法一：使用HashMap，略
+     * 方法二：时间换空间，时间复杂度O(n^2)。
+     *      本来想说用快排先排序的，但是快排和堆排都是不稳定的排序，而归并排序又有O(n)空间复杂度
+     *      就算有了稳定排序，原本的数字的顺序也被打乱了，输出肯定是有序的，不符合题意，所以只能O(n^2)
+     */
+    public ListNode removeDuplicateNodes(ListNode head) {
+        if(head == null) return head;
+
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while(fast != null) {
+            if(! isDuplicate(head, slow, fast.val)) {
+                slow.next = fast;
+                slow = slow.next;
+            }
+            fast = fast.next;
+        }
+
+        slow.next = null;
+        return head;
+    }
+
+    public boolean isDuplicate(ListNode head, ListNode end, int target) {
+        ListNode p = head;
+        while(p != end) {
+            if(p.val == target) return true;
+            p = p.next;
+        }
+        return p.val == target;
     }
 }

@@ -87,7 +87,10 @@ public class FindDisappearedNumbers {
      */
     public int missingNumber(int[] nums) {
         int n = nums.length;
-        int ans = n;
+        int ans = 0;
+        // 先和新补的索引异或一下
+        ans ^= n;
+        // 和其他的元素、索引做异或
         for (int i = 0; i < n; i++) {
             ans = ans ^ i ^ nums[i];
         }
@@ -106,6 +109,19 @@ public class FindDisappearedNumbers {
             sum -= nums[i];
         }
         return sum;
+    }
+
+    /**
+     * 方法五：解决高斯求和的溢出问题，改用加减法
+     */
+    public int missingNumber3(int[] nums) {
+        int n = nums.length;
+
+        int ans = n;
+        for (int i = 0; i < nums.length; i++) {
+            ans = ans + i - nums[i];
+        }
+        return ans;
     }
 
     /**

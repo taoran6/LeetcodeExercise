@@ -1,5 +1,7 @@
 package com.example.leetcode.math;
 
+import java.util.Arrays;
+
 /**
  * 866. 回文素数
  */
@@ -80,5 +82,33 @@ public class PrimePalindrome {
             end --;
         }
         return true;
+    }
+
+    /**
+     * 经典问题：寻找n以内的素数的个数
+     *
+     * Sieve of Eratosthenes方法
+     */
+    public int countPrimes(int n) {
+        boolean[] isPrime = new boolean[n + 1];
+        Arrays.fill(isPrime, true);
+        //注意，这里 i 直接从2到sqrt(n)即可
+        for(int i = 2; i * i <= n; i++) {
+            if(isPrime[i]) {
+                //注意，这里让 j 从 i 的平方开始遍历(比如 n = 25 ， i = 4 时算法会标记4×2=8，4×3=12等等数字，
+                //但是这两个数字已经被 i = 2 和 i = 3 的2×4和3×4标记了。)
+                for(int j = i * i; j <= n; j = j + i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+
+        int ans = 0;
+        for (int i = 2; i <= n; i++) {
+            if(isPrime[i]) {
+                ans ++;
+            }
+        }
+        return ans;
     }
 }
