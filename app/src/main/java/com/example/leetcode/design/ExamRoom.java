@@ -45,6 +45,8 @@ public class ExamRoom {
      * 来源：力扣（LeetCode）
      * 链接：https://leetcode-cn.com/problems/exam-room
      * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * 这个边界太难处理了0，N-1的情况
      */
 
     Map<Integer, int[]> startMap;
@@ -72,49 +74,47 @@ public class ExamRoom {
         });
 
         //初始化
-        treeSet.add(new int[]{0, N-1});
+        addInterval(new int[]{-1, N});
     }
 
     public int seat() {
         int[] longest = treeSet.first();
+        int mid;
 
-        if(longest[0] == 0) {
-            removeInterval(longest);
-            addInterval(new int[]{1, longest[1]});
-            return 0;
+        if(longest[0] == -1) {
+            mid = 0;
         }
 
-        if(longest[1] == N - 1) {
-            removeInterval(longest);
-            addInterval(new int[]{longest[0], N - 2});
-            return N - 1;
+        else if(longest[1] == N) {
+            mid =  N - 1;
+        } else {
+            mid = (longest[1] - longest[0]) / 2 + longest[0];
         }
 
-        int mid = (longest[1] - longest[0]) / 2;
         removeInterval(longest);
-        addInterval(new int[] {longest[0], mid - 1});
-        addInterval(new int[] {mid + 1, longest[1]});
+        addInterval(new int[] {longest[0], mid});
+        addInterval(new int[] {mid, longest[1]});
         return mid;
     }
 
     public void leave(int p) {
-        int[] startInterVal = startMap.getOrDefault(p, new int[]{0, 0});
-        int[] endInterval = endMap.getOrDefault(p, new int[]{N-1, N-1});
+        int[] startInterVal = startMap.get(p);
+        int[] endInterval = endMap.get(p);
         removeInterval(startInterVal);
         removeInterval(endInterval);
-        addInterval(new int[]{startInterVal[0], endInterval[1]});
+        addInterval(new int[]{endInterval[0], startInterVal[1]});
     }
 
     private void addInterval(int[] a) {
-        startMap.put(a[0] - 1, a);
-        endMap.put(a[1] + 1, a);
+        startMap.put(a[0], a);
+        endMap.put(a[1], a);
         treeSet.add(a);
     }
 
     private void removeInterval(int[] a){
         //不存在key也可以，不会抛异常
-        startMap.remove(a[0] - 1, a);
-        endMap.remove(a[1] + 1, a);
+        startMap.remove(a[0], a);
+        endMap.remove(a[1], a);
         treeSet.remove(a);
     }
 
@@ -127,11 +127,11 @@ public class ExamRoom {
      */
     private int distance(int[] a) {
         //端点的情况单独考虑
-        if(a[0] == 0) {
+        if(a[0] == -1) {
             return a[1];
         }
-        if(a[1] == N-1) {
-            return a[1] - a[0];
+        if(a[1] == N) {
+            return a[1] - a[0] - 1;
         }
         int da = (a[1] - a[0]) / 2;
         return da;

@@ -11,7 +11,11 @@ public class MainTest {
         int a1 = examRoom.seat();
         int a2 = examRoom.seat();
         int a3 = examRoom.seat();
+        int a5 = examRoom.seat();
+
         examRoom.leave(4);
+
         int a4 = examRoom.seat();
+        System.out.println(a4);
     }
 }
