@@ -1,10 +1,12 @@
 package com.example.leetcode.linkedlist;
 
 /**
- * 回文链表
+ * 回文
  */
 public class Palindrome {
     /**
+     * 234. 回文链表
+     *
      * 请判断一个链表是否为回文链表。
      *
      * 示例 1:
@@ -34,6 +36,7 @@ public class Palindrome {
         ListNode fast = head;
         ListNode prv = null;
         ListNode behind = null;
+        // 快慢指针
         while (fast.next != null && fast.next.next != null) {
             fast = fast.next.next;
             behind = slow.next;
@@ -42,6 +45,7 @@ public class Palindrome {
             slow = behind;
         }
 
+        // 反转链表的一半
         if(fast.next != null) {
             fast = slow.next;
             slow.next = prv;
@@ -51,6 +55,7 @@ public class Palindrome {
 
         }
 
+        // 回文对比
         while (fast != null) {
             if (fast.val != slow.val) return false;
             fast = fast.next;
@@ -58,6 +63,29 @@ public class Palindrome {
         }
 
         return true;
+    }
+
+    /**
+     * 方法二:使用递归的性质
+     *
+     * 不过这种方法left和right都是将整个链表都遍历了一遍，其实只用遍历一半就好
+     */
+    // 左侧指针
+    ListNode left;
+    public boolean isPalindrome2(ListNode head) {
+        left = head;
+        return reverse(head);
+    }
+
+    private boolean reverse(ListNode right) {
+        if(right == null) return true;
+
+        boolean ans = reverse(right.next);
+        // 后序遍历代码
+        ans = ans && (left.val == right.val);
+        left = left.next;
+
+        return ans;
     }
 
     /**
